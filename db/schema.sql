@@ -98,3 +98,5 @@ execute function update_flight_completed_status();
 select * from users;
 select * from flights;
 select * from companies;
+
+alter table flights add column is_cancelled boolean default false;

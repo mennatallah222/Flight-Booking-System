@@ -5,7 +5,7 @@ require_once __DIR__ . '/models/Flight.php';
 
 try {
     //user_pass is to be changed according to each of our passwords :)
-    $pdo = new PDO($dsn, 'postgres', 'user_pass', [
+    $pdo = new PDO($dsn, 'postgres', 'Menna@123#', [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
     ]);
     User::setPDO($pdo);

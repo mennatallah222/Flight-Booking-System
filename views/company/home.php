@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Company Dashboard</title>
-    <link rel="stylesheet" href="../../views/assets/styles.css">
     
     <style>
         body {
@@ -98,6 +97,9 @@
             display: flex;
             justify-content: space-between;
             margin: 0 20px;
+        }
+        .itiernaray-info-city{
+            font-weight: bold;
         }
         .separating-line-div{
             display: flex;
@@ -223,12 +225,12 @@
                         </div>
 
                         <div class="itiernaray-info">
-                            <span><?php echo $firstItinerary['city']; ?></span>
+                            <span class="itiernaray-info-city"><?php echo $firstItinerary['city']; ?></span>
                             <div class="separating-line-div">
                                 <span>✈︎</span>
                                 <span class="separating-line"></span>
                             </div>
-                            <span><?php echo $lastItinerary['city']; ?></span>
+                            <span class="itiernaray-info-city"><?php echo $lastItinerary['city']; ?></span>
                         </div>
                     </td>
 
@@ -295,7 +297,7 @@
         }
 
         function cancelFlight(flightId) {
-            if (confirm('Are you sure you want to cancel this flight?')) {
+            if (confirm('Are you sure you want to cancel this flight?')){
                 fetch(`index.php?action=cancel_flight&id=${flightId}`)
                     .then(response => response.json())
                     .then(data => {
@@ -304,7 +306,7 @@
                             location.reload();
                         }
                         else{
-                            alert('failed to cancel the flight.');
+                            alert('failed to cancel the flight: '+data.message);
                         }
                     })
                     .catch(error => {
