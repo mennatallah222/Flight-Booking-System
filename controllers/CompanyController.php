@@ -18,17 +18,9 @@ class CompanyController {
         $user=User::getByID($userId);
 
         if (!$company) {
-            echo "comapny" . $company;
-            echo "comapny" . $companyId;
-            echo "comapny" . $user;
-            echo "comapny" . $userId;
             echo "Company data not found.";
             return;
         }
-
-        // echo '<pre>';
-        // print_r($company);
-        // echo '</pre>';
 
         $flights = Flight::getByCompanyId($companyId);
         include __DIR__ . '/../views/company/home.php';

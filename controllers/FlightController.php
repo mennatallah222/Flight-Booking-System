@@ -53,4 +53,19 @@ class FlightController {
             include __DIR__ . '/../views/company/add_flight.php';
         }
     }
+
+    public function cancelFlight($flight_id){
+        $query=$this->pdo->prepare('select * from flights where id=?');
+        $query->execute([$flight_id]);
+        $flight=$query->fetch();
+        if($flight){
+            $updated_query=$this->pdo->prepare('update flights set is_cancelled=true where id=?');
+            $updated_query->execute([$flight_id]);
+            echo json_encode(['success'=>true, 'message'=>"fligh has been successfully cancelled!!"]);
+        }
+        else{
+            echo json_encode(['success'=>false, 'message'=>"fligh isnt found!!"]);
+        }
+        exit;
+    }
 }

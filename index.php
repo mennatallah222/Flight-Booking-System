@@ -21,21 +21,14 @@ switch ($action) {
     case 'companyHome':
         $companyController->home();
         break;
-    // case 'profile':
-    //     $companyController->profile();
-    //     break;
     case 'add_flight':
         $flightController->addFlight();
         break;
-    // case 'flightDetails':
-    //     $flightId = $_GET['id'] ?? '';
-    //     if ($flightId) {
-    //         $companyController->flightDetails($flightId);
-    //     }
-    //     break;
-    // case 'messages':
-    //     $companyController->messages();
-    //     break;
+    case 'cancel_flight':
+        $flight_id=$_GET['id'];//fetches the id from the url
+        if($flight_id)
+            $flightController->cancelFlight($flight_id);
+        break;
     case 'home':
     default:
         include './views/passenger/home.php';

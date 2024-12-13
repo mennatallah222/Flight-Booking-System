@@ -1,80 +1,232 @@
+/* Global styles */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f7f8fc;
+  background-color: #f4f4f9;
 }
+
+header,
+footer {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 0;
+  text-align: center;
+}
+
+/* Header styles */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
-  background-color: #5b4ef7;
-  color: #fff;
+  padding: 10px 20px;
 }
-.header .logo {
-  display: flex;
-  align-items: center;
-}
+
 .header .logo img {
-  width: 50px;
+  height: 50px;
   margin-right: 10px;
 }
-.header h1 {
+
+.header .logo h1 {
+  display: inline-block;
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 24px;
 }
-.nav {
+
+.header .nav {
   display: flex;
-  gap: 20px;
+  align-items: center;
 }
-.nav a {
+
+.header .nav a {
+  margin-left: 15px;
   text-decoration: none;
-  color: white;
-  font-weight: bold;
+  color: #fff;
+  font-size: 16px;
 }
+
+.header .nav img.profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-left: 10px;
+}
+
+/* Sidebar styles */
 .container {
+  display: flex;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #343a40;
+  color: #fff;
   padding: 20px;
 }
-.add-flight {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
 }
-.add-flight button {
-  background-color: #5b4ef7;
-  color: white;
-  border: none;
+
+.sidebar ul li {
+  margin-bottom: 10px;
+}
+
+.sidebar ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.sidebar ul li a i {
+  margin-right: 10px;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li a.active {
+  background-color: #007bff;
+}
+
+/* Main content styles */
+.main-content {
+  flex-grow: 1;
+  padding: 20px;
+}
+
+.search-section,
+.flights-section {
+  background-color: #fff;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-section h2,
+.flights-section h2 {
+  margin-top: 0;
+}
+
+.search-section .form-group,
+.flights-section .form-group {
+  margin-bottom: 15px;
+}
+
+.search-section .form-group label,
+.flights-section .form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.search-section .form-group input,
+.flights-section .form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.search-section .search-button {
   padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
   border-radius: 5px;
   cursor: pointer;
 }
+
+.search-section .search-button:hover {
+  background-color: #0056b3;
+}
+
+/* Table styles */
 .flight-list {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  overflow: hidden;
 }
+
 .flight-list th,
 .flight-list td {
-  border: 1px solid #ddd;
-  padding: 10px;
+  padding: 12px;
   text-align: left;
+  border-bottom: 1px solid #ddd;
 }
+
 .flight-list th {
-  background-color: #5b4ef7;
-  color: white;
+  background-color: #f8f8f8;
+  color: #333;
 }
+
 .flight-list tr:hover {
-  background-color: #f1f1f1;
+  background-color: #f0f0f0;
+}
+
+.flight-list .itinerary {
+  cursor: pointer;
+  position: relative;
+}
+
+.flight-list .itinerary-slider {
+  display: none;
+  position: absolute;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  z-index: 1;
+  width: 100%;
+  border-radius: 5px;
+}
+
+.flight-list button {
+  padding: 5px 10px;
+  font-size: 14px;
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
 }
+
+.flight-list button:hover {
+  background-color: #c82333;
+}
+
+/* Footer styles */
 .footer {
-  background-color: #333;
-  color: #fff;
   text-align: center;
-  padding: 10px;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
+  padding: 10px 0;
+  color: #fff;
+  font-size: 14px;
+}
+
+/* Slick slider custom styles */
+.slick-slide {
+  text-align: center;
+}
+
+.slick-prev,
+.slick-next {
+  background: #007bff;
+  color: #fff;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+}
+
+.slick-prev:hover,
+.slick-next:hover {
+  background: #0056b3;
 }
