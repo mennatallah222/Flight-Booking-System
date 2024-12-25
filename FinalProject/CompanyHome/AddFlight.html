@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/Forms.css">
+    <link rel="stylesheet" href="../assets/CompanyProfile.css">
+    <title>Add Flight</title>
+</head>
+
+<body>
+    <header class="app-header">
+        <div class="logo-container">
+            <img src="../assets/logo.png" alt="Website Logo" class="logo" />
+            <h1 class="app-name">FlyMates</h1>
+        </div>
+    </header>
+
+    <div class="main-content" style="flex-direction: unset;">
+        <div class="ProfileDiv" style="max-width: 250px;">
+            <div class="logo-container"> <!-- Placeholder -->
+                <img src="../assets/DemoLogo.png" alt="Website Logo" class="Companylogo" />
+            </div>
+            <h3><!-- Placeholder -->
+                Saudi Arabian Airlines</h3>
+        </div>
+
+        <div class="right-container">
+            <div class="EditProfile" style="align-items: center;" >
+                <form name="reg3" method="get" action="process.php" style="border: 0px;">
+                    <h1>Add Flight</h1>
+
+                    <div style="display: flex; gap: 10px;">
+                        <div>
+                            <label>Name:</label>
+                            <input type="text" name="FlightName" />
+                        </div>
+                        <div>
+                            <label>ID:</label>
+                            <input type="text" name="FlightId" />
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 10px;">
+                        <div>
+                            <label>Itinerary:</label>
+                            <input type="text" name="FlightItinerary" />
+                        </div>
+                        <div>
+                            <label>Fees:</label>
+                            <input type="number" name="FlightFees" />
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 10px;">
+                        <div>
+                            <label>Number Of Passengers:</label>
+                            <input type="number" name="FlightNumberOfPassengers" />
+                        </div>
+
+                    </div>
+
+                    
+                    <div style="display: flex; gap: 10px;">
+                        <div>
+                            <label>Arrival Time:</label>
+                            <input type="datetime-local" name="FlightArrival" style="height: 20px;width: 200px; border-radius: 5px; border: 1px solid #0000005f;padding: 12px;" />
+                        </div>
+                        <div>
+                            <label>Takeoff Time:</label>
+                            <input type="datetime-local" name="FlightTakeoff" style="height: 20px;width: 200px; border-radius: 5px; border: 1px solid #0000005f;padding: 12px;" />
+                        </div>
+                    </div>
+
+
+                    <input type="submit" name="Add Flight" value="Add Flight"></input>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>
