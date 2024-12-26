@@ -8,17 +8,20 @@ class CompanyController {
 
     public function __construct($pdo) {
         $this->pdo = $pdo;
+        Company::setPDO($this->pdo);
     }
 
     public function home() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
         $companyId = $_SESSION['company_id'];
         $userId = $_SESSION['user_id'];
-
-        $company = Company::getByUserId($this->pdo, $userId);
-        $user=User::getByID($userId);
+        $company = Company::getByUserId($userId);
+        $user = User::getByID($userId);
 
         if (!$company) {
-            echo "Company data not found.";
+            echo "Company data not found!";
             return;
         }
 
@@ -26,6 +29,4 @@ class CompanyController {
         include __DIR__ . '/../views/company/home.php';
     }
 }
-
-
 ?>

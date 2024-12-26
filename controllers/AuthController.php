@@ -1,10 +1,5 @@
 <?php
 
-require_once __DIR__ . '/../models/User.php';
-require_once __DIR__ . '/../models/Company.php';
-require_once __DIR__ . '/../models/Passenger.php';
-require_once __DIR__ . '/../db.php';
-
 class AuthController {
     private $pdo;
 
@@ -12,6 +7,26 @@ class AuthController {
         $this->pdo = $pdo;
         User::setPDO($this->pdo);
         Company::setPDO($this->pdo);
+    }
+
+    public function registerInitial() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+            $_SESSION['register_data'] = $_POST;
+            $role = filter_input(INPUT_GET, 'role', FILTER_SANITIZE_STRING);
+
+            if ($role === 'company') {
+                header('Location: CompanyRegistration.html');
+            }
+            else {
+                $this->register();
+            }
+        }
+        else {
+            include __DIR__ . '/../views/register.php';
+        }
     }
 
     public function register() {
@@ -48,7 +63,8 @@ class AuthController {
                     $logoUrl = $this->handleLogoUpload();
 
                     Company::create($userId, $bio, $address, $location, $logoUrl, 0);
-                } elseif ($role === 'passenger') {
+                }
+                elseif ($role === 'passenger') {
                     Passenger::create($email, $password, $name, $tel, $role, '', '', 0);
                 }
 
@@ -60,12 +76,11 @@ class AuthController {
                 $this->pdo->rollBack();
                 echo "Error: " . $e->getMessage();
             }
-        } else {
+        }
+        else {
             include __DIR__ . '/../views/register.php';
         }
     }
-
-    
 
     private function handleLogoUpload() {
         if (isset($_FILES['logo']) && $_FILES['logo']['error'] === UPLOAD_ERR_OK) {
@@ -78,7 +93,8 @@ class AuthController {
             $logoPath = $uploadDir . uniqid() . "_" . $logoName;
             if (move_uploaded_file($logoTmpPath, $logoPath)) {
                 return 'uploads/logos/' . basename($logoPath);
-            } else {
+            }
+            else {
                 throw new Exception("Error uploading the logo");
             }
         }
@@ -86,44 +102,33 @@ class AuthController {
     }
 
     public function login() {
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $email = $_POST['email'];
-        $password = trim($_POST['password']);
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $email = $_POST['email'];
+            $password = trim($_POST['password']);
+            $user = User::getByEmail($email);
+            if ($user && password_verify($password, $user['password'])) {
+                if (session_status() === PHP_SESSION_NONE) {
+                    session_start();
+                }
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['role'] = $user['role'];
 
-        $user = User::getByEmail($email);
-        var_dump($email, $password, $user); 
-        if ($user) {
-            var_dump("Password: ", $password);
-            var_dump("Hashed Password: ", $user['password']);
-            var_dump("Password Verify: ", password_verify($password, $user['password']));
-            var_dump(password_get_info($user['password']));
-        }
-
-        if ($user && password_verify($password, $user['password'])) {
-            if (session_status() === PHP_SESSION_NONE) {
-                session_start();
-            }
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['role'] = $user['role'];
-
-            if ($user['role'] == 'company') {
-                $company = Company::getByUserId($this->pdo, $user['id']);
-                if ($company) {
-                    $_SESSION['company_id'] = $company['id'];
-                    header('Location: index.php?action=companyHome');
+                if ($user['role'] == 'company') {
+                    $company = Company::getByUserId($user['id']);
+                    if ($company) {
+                        $_SESSION['company_id'] = $company['id'];
+                        header('Location: index.php?action=companyHome');
+                    } else {
+                        echo "Company not found!";
+                    }
                 } else {
-                    echo "Company not found!";
+                    header('Location: index.php?action=passengerHome');
                 }
             } else {
-                header('Location: index.php?action=passengerHome');
+                echo "Invalid email or password.";
             }
         } else {
-            echo "Invalid email or password.";
+            include __DIR__ . '/../views/login.php';
         }
-    } else {
-        include __DIR__ . '/../views/login.php';
     }
-}
-
-
 }

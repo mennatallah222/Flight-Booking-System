@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/User.php';
+
 class Company extends User {
     public $bio;
     public $address;
@@ -6,6 +8,7 @@ class Company extends User {
     public $logo;
     public $account;
 
+    // Set PDO for Company class
     public static function setPDO($pdo) {
         self::$pdo = $pdo;
     }
@@ -28,3 +31,4 @@ class Company extends User {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }
+?>
