@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/Forms.css">
+    <title>Passenger Registeration</title>
+</head>
+<body>
+    <header class="app-header">
+        <div class="logo-container">
+          <img src="../assets/logo.png" alt="Website Logo" class="logo" />
+          <h1 class="app-name">FlyMates</h1>
+        </div>
+      </header>
+
+      <div class="form-container">
+        <form name="reg2" method="get" action="process.php">
+            <h1>Passenger Registration</h1>
+  
+          <div>
+            <label>Bank Account Number:</label>
+            <input
+              type="text"
+              name="bankAccount"
+              required
+            />
+          </div>
+  
+
+          
+          <div>
+            <label>Personal Photo:</label><br>
+            <input type="file" name="personalimg" accept="image/*" required />
+          </div>
+
+          <div>
+            <label>Passport Image:</label><br>
+            <input type="file" name="passportimg" accept="image/*"  required />
+          </div>
+  
+           
+          <button type="submit">Register</button>
+         
+        </form>
+      </div>
+
+</body>
+</html>
