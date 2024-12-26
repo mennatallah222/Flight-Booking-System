@@ -119,6 +119,24 @@ html, body {
     align-items: center; /* Aligns items horizontally in the center */
     justify-content: space-between; /* Align items towards the top of the container */
   }
+
+  .search-content {
+    width: 95%;
+    flex-shrink: 1;
+    margin: 10px;
+    min-height: 50px;
+    min-width: fit-content;
+    display: flex;
+    background-color: white;
+    padding: 10px;
+ 
+    border-radius: 10px;
+    box-shadow: 4px 4px 8px rgba(176, 196, 222, 0.399),
+                -4px -4px 8px rgba(176, 196, 222, 0.399); /* Shadow on all sides */
+    flex: 1; /* Equal height for both divs */
+    align-items: center; /* Aligns items horizontally in the center */
+    justify-content: space-between; /* Align items towards the top of the container */
+  }
   
   .content-container {
     overflow: auto;
@@ -165,6 +183,7 @@ html, body {
   
   input[type="submit"],
   button {
+    margin: 20px;
     height: fit-content;
     width: fit-content;
     padding: 10px;
@@ -186,4 +205,60 @@ html, body {
   button:hover {
     cursor: pointer;
   }
+
+
+  form.search-form {
+    width: 100%; /* Full width of the container */
+    padding: 0px;
+    border: 0px solid #ccc;
+    border-radius: 8px;
+
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+}
+.search-form div {
+  display: flex;
+  margin-left: 10px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+
+.search-form input[type="text"] {
+  width: 500px;
+  padding: 12px;
+  margin: 0px 0;
+  border-radius: 5px;
+  border: 1px solid #0000005f;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+textarea,
+select {
+    width: 100%;
+    padding: 12px;
+    margin: 0px 0;
+    border-radius: 5px;
+    border: 1px solid #0000005f;
+    font-size: 14px;
+    box-sizing: border-box;
+    
+}
+
+input:focus,
+textarea:focus {
+    outline: none; /* Remove default outline */
+    border: 2px solid lightblue; /* Add a custom border color */
+    box-shadow: 0 0 10px rgba(114, 194, 221, 0.657); /* Custom shadow for focus */
+}
   
