@@ -2,7 +2,8 @@
     <input type="email" name="email" required placeholder="Email">
     <input type="text" name="name" required placeholder="Name">
     <input type="password" name="password" required placeholder="Password">
-    <input type="text" name="tel" required placeholder="Telephone">
+    <input type="tel" name="tel" required />
+    
     <select name="role" id="role" required onchange="toggleLogo(this)">
         <option value="passenger">Passenger</option>
         <option value="company">Company</option>

@@ -83,8 +83,4 @@ END $$
 
 DELIMITER ;
 
-
-GRANT ALL PRIVILEGES ON flight_booking.* TO 'root'@'localhost' WITH GRANT OPTION;
-FLUSH PRIVILEGES;
-ALTER USER 'root'@'localhost' IDENTIFIED BY 'Menna@123#';
-FLUSH PRIVILEGES;
+select * from users

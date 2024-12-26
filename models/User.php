@@ -13,14 +13,14 @@ class User {
     }
 
     public static function getByEmail($email) {
-        global $pdo;
-        $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
+        $stmt = self::$pdo->prepare("SELECT * FROM users WHERE email = ?");
         $stmt->execute([$email]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+
     public static function getByID($id) {
-        global $pdo;
-        $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
+        $stmt = self::$pdo->prepare("SELECT * FROM users WHERE id = ?");
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
@@ -31,4 +31,5 @@ class User {
         return self::$pdo->lastInsertId();
     }
 }
+
 ?>
