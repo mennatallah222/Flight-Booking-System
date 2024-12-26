@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/Passenger.css">
+    <link rel="stylesheet" href="../assets/FlightDetails.css">
+    <title>Flight Dtails</title>
+</head>
+
+<body>
+    <header class="app-header">
+        <div class="logo-container">
+            <img src="../assets/logo.png" alt="Website Logo" class="logo" />
+            <h1 class="app-name">FlyMates</h1>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <div class="ProfileDiv">
+            <div class="logo-container"> <!-- Placeholder -->
+                <img src="../assets/Passenger.png" alt="Website Logo" class="Companylogo" />
+            </div>
+            <h3><!-- Placeholder -->
+                Abdelrhman Gamal</h3>
+
+            <form action="process.php" method="POST">
+                <input type="submit" name="Profile" value="Profile"></input>
+            </form>
+        </div>
+
+        <div class="right-container">
+            <div class="top-right">
+                <div class="flight-header">
+                    <h2>Flight Details</h2>
+
+                </div>
+
+                <!-- placeholders-->
+                <div class="flights-container">
+                    <div class="FlightDetails">
+                        <h5 style="color: blue;margin: 2px">ID:</h5><br>
+                        <h3>Name:</h3>
+                        <h3>Company:</h3>
+                        <h3>Itenerary:</h3>
+
+                        <h3>Takeoff time:</h3>
+                        <h3>Arrival time:</h3>
+                        <h3>Fees:</h3>
+
+
+                    </div>
+                    <button onclick="openPopup()">Message Company</button>
+                    
+                    <script>
+                    function openPopup() {
+                        window.open('Message.html', 'popup', 'width=600,height=400');
+                    }
+                    </script>
+
+
+
+
+                    <form action="process.php" method="POST">
+                        <label>Payment:</label>
+                        <select name="payment" required>
+                          <option value="Cash">Cash</option>
+                          <option value="From Account">From Accounte</option>
+                        </select>
+                        <input type="submit" name="TakeFlight" value="Take Flight"></input>
+                    </form>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
