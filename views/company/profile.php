@@ -276,6 +276,7 @@
             <img src="<?php echo $company['logo']; ?>" alt="Profile Picture">
             
         </div>
+        <h1><?php echo $user['name']; ?></h1>
 
         <div class="bio">
             <h2>Bio</h2>
@@ -291,18 +292,17 @@
 
         if ($company) {
             $companyName = isset($user['name']) ? $user['name'] : 'N/A';
-            $companyBio = isset($user['bio']) ? $user['bio'] : 'No bio provided';
-            $companyAddress = isset($user['address']) ? $user['address'] : 'No address provided';
+            $companyBio = isset($company['bio']) ? $company['bio'] : 'No bio provided';
+            $companyAddress = isset($company['address']) ? $company['address'] : 'No address provided';
         }
         else {
-            $companyName = 'Company data not found';
+            $companyName = "Company's data not found";
             $companyBio = 'No bio available';
             $companyAddress = 'No address available';
         }
         ?>
-
+        <h2>Edit your profile</h2>
         <div class="edit-section">
-            <h2>Edit your profile</h2>
             <form action="index.php?action=update-profile" method="post">
                 <label for="name">Name</label>
                 <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($companyName); ?>">
@@ -316,9 +316,7 @@
                 <button type="submit">Save Changes</button>
             </form>
         </div>
-
-
-
+        
         <!-- flights list -->
          <h2>Your flights</h2>
         <div class="tablesdiv">

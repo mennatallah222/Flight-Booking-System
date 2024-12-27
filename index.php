@@ -44,7 +44,9 @@ switch ($action) {
     case 'profile':
         $companyController->profile();
         break;
-
+    case 'update-profile':
+        $companyController->updateProfile();
+        break;
     case 'home':
     default:
         include './views/passenger/home.php';

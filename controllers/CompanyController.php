@@ -47,5 +47,30 @@ class CompanyController {
         include __DIR__ . '/../views/company/profile.php';
     }
 
+    public function updateProfile() {
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    $userId = $_SESSION['user_id'];
+    $companyId = $_SESSION['company_id'];
+    //retrieving the updated profile data from POST request
+    $name = $_POST['name'] ?? '';
+    $bio = $_POST['bio'] ?? '';
+    $address = $_POST['address'] ?? '';
+    if (empty($name) || empty($bio) || empty($address)) {
+        echo "All fields are required!";
+        return;
+    }
+
+    //updates the 'User' table
+    $stmt = $this->pdo->prepare("UPDATE users SET name = ? WHERE id = ?");
+    $stmt->execute([$name, $userId]);
+    //updates the 'Company' table
+    $stmt = $this->pdo->prepare("UPDATE companies SET bio = ?, address = ? WHERE user_id = ?");
+    $stmt->execute([$bio, $address, $userId]);
+
+    header("Location: index.php?action=profile");
+}
+
 }
 ?>
