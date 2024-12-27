@@ -78,33 +78,44 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            overflow: auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
         }
 
         table th, table td {
             padding: 10px;
             text-align: left;
-            border: 1px solid #ddd;
         }
 
         table th {
             background-color: #f5f5f5;
-        }
+                        border: 1px solid #ddd;
 
+        }
+        table tr{
+            height: 70px;
+        }
         table tr:hover {
             background-color: #f1f1f1;
         }
-        .itiernaray-info{
+
+        .itiernaray-info {
             display: flex;
             justify-content: space-between;
             margin: 0 20px;
         }
-        .itiernaray-info-city{
+
+        .itiernaray-info-city {
             font-weight: bold;
         }
-        .separating-line-div{
+
+        .separating-line-div {
             display: flex;
             align-items: center;
         }
+
         .separating-line {
             display: inline-block;
             width: 60px;
@@ -112,7 +123,8 @@
             background-color: #343a40;
             margin: 0 2px;
         }
-        #itineraryModal{
+
+        #itineraryModal {
             display: none;
             position: fixed;
             top: 0;
@@ -122,7 +134,8 @@
             background: rgba(0, 0, 0, 0.5);
             z-index: 1000;
         }
-        #itineraryModal > div{
+
+        #itineraryModal > div {
             background: white;
             margin: 10% auto;
             padding: 20px;
@@ -131,8 +144,9 @@
             border-radius: 8px;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
         }
-        .sidebar a.active, .sidebar a:hover{
-            background-color: #007bff;
+
+        .sidebar a.active, .sidebar a:hover {
+            background-color: #3498db;
             color: #fff;
         }
         .cancel-btn {
@@ -140,174 +154,205 @@
             padding: 7px;
             border: none;
             background-color: red;
+            color: white;
+            font-weight: bold;
         }
-        .itineraries-td:hover{
+        .details-btn{
+            margin-left: 10px;
+            border-radius: 4px;
+            padding: 7px;
+            border: none;
+            background-color: green;
+            color: white;
+            font-weight: bold;
+        }
+        .itineraries-td:hover {
             cursor: pointer;
         }
 
-
-
-
-
-
-
         .timeline-container {
-        position: relative;
-        margin: 20px 0;
-        padding-left: 20px;
-        border-left: 3px solid #007bff;
-    }
+            position: relative;
+            margin: 20px 0;
+            padding-left: 20px;
+            border-left: 3px solid #007bff;
+        }
 
-    .timeline-item {
-        position: relative;
-        margin-bottom: 20px;
-        padding-left: 20px;
-    }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
 
-    .timeline-item::before {
-        content: '';
-        position: absolute;
-        top: 5px;
-        left: -8px;
-        width: 15px;
-        height: 15px;
-        background-color: #007bff;
-        border-radius: 50%;
-    }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: -8px;
+            width: 15px;
+            height: 15px;
+            background-color: #007bff;
+            border-radius: 50%;
+        }
 
-    .timeline-city {
-        font-weight: bold;
-        color: #343a40;
-    }
+        .timeline-city {
+            font-weight: bold;
+            color: #343a40;
+        }
 
-    .timeline-time {
-        color: #666;
-        margin-top: 5px;
-    }
+        .timeline-time {
+            color: #666;
+            margin-top: 5px;
+        }
+        .tablesdiv{
+          overflow: auto;
+          max-height: 250px;
+        }
+        *{
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
     <div class="sidebar">
-        <a href="index.php?action=companyHome" class="active">Overview</a>
-        <a href="profile.php">Profile</a>
-        <a href="messages.php">Messages</a>
+        <img src="<?php echo $company['logo']; ?>" alt="Company Logo" style="height: 150px;display: grid;justify-self: center; margin-bottom:70px">
+        <a href="index.php?action=companyHome" class="active">Home</a>
+        <a href="index.php?action=profile">Profile</a>
         <a href="index.php?action=add_flight">Add flight</a>
-
     </div>
 
     <div class="content">
         <div class="dashboard-header">
             <h1>Welcome, <?php echo $user['name']; ?></h1>
-            <img src="<?php echo $company['logo']; ?>" alt="Company Logo" style="height: 50px;">
         </div>
 
         <div class="stats-cards">
             <div class="card">
-                <h3>total flights</h3>
+                <h3>Total Flights</h3>
                 <p><?php echo count($flights); ?></p>
             </div>
             <div class="card">
-                <h3>total passengers</h3>
-                <p><?php echo $totalPassengers; ?></p>
-            </div>
+                <h3>Total Passengers</h3>
+                <p><?php echo isset($totalPassengers) ? $totalPassengers : '0'; ?></p>            </div>
             <div class="card">
-                <h3>cancelled flights</h3>
+                <h3>Cancelled Flights</h3>
                 <p><?php 
                     $cancelledCount=0;
-                    foreach ($flights as $flight){
-                        if ($flight['is_cancelled']==1){
+                    foreach ($flights as $flight) {
+                        if ($flight['is_cancelled'] == 1) {
                             $cancelledCount++;
                         }
                     }
                     echo $cancelledCount;
                 ?></p>
             </div>
-
         </div>
 
-        <h2>Recent flights</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Fees</th>
-                    <th>Passengers</th>
-                    <th>itineraries</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($flights as $flight): ?>
-                <tr>
-                    <td><?php echo $flight['id']; ?></td>
-                    <td><?php echo $flight['name']; ?></td>
-                    <td>$<?php echo $flight['fees']; ?></td>
-                    <td><?php echo $flight['registered_passengers']; ?></td>
-                    <td class="itineraries-td" onclick='showItineraryDetails(<?php echo json_encode(Flight::getItinerariesByFlightID($flight['id'])); ?>)'>
-                        <?php
-                            $itineraries = Flight::getItinerariesByFlightID($flight['id']);
-                            $firstItinerary = reset($itineraries);
-                            $lastItinerary = end($itineraries);
-                        ?>
-
-                        <div class="itiernaray-info">
-                            <span><?php echo substr($firstItinerary['departure_time'], 11, 5); ?></span>
+        <h2>Flights</h2>
+        <div class="tablesdiv">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Fees</th>
+                        <th>Itineraries</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($flights as $flight): ?>
+                    <tr>
+                        <td><?php echo $flight['id']; ?></td>
+                        <td><?php echo $flight['name']; ?></td>
+                        <td>$<?php echo $flight['fees']; ?></td>
+                        <td class="itineraries-td" onclick='showItineraryDetails(<?php echo json_encode(Flight::getItinerariesByFlightID($flight['id'])); ?>)'>
                             <?php
-                                $departureTime = new DateTime($firstItinerary['departure_time']);
-                                $arrivalTime = new DateTime($lastItinerary['departure_time']);
-                                $interval = $departureTime->diff($arrivalTime);
-                                $totalFlightTime = $interval->format('%a days %h hours %i minutes');
+                                $itineraries = Flight::getItinerariesByFlightID($flight['id']);
+                                $firstItinerary = reset($itineraries);
+                                $lastItinerary = end($itineraries);
+                            ?>
+
+                            <div class="itiernaray-info">
+                                <span><?php echo substr($firstItinerary['departure_time'], 11, 5); ?></span>
+                                <?php
+                                    $departureTime = new DateTime($firstItinerary['departure_time']);
+                                    $arrivalTime = new DateTime($lastItinerary['departure_time']);
+                                    $interval = $departureTime->diff($arrivalTime);
+                                    $totalFlightTime = $interval->format('%a days %h hours %i minutes');
                                 ?>
                                 <span><?php echo $totalFlightTime; ?></span>
-                            <span><?php echo substr($lastItinerary['departure_time'], 11, 5); ?></span>
-                        </div>
-
-                        <div class="itiernaray-info">
-                            <span class="itiernaray-info-city"><?php echo $firstItinerary['city']; ?></span>
-                            <div class="separating-line-div">
-                                <span>✈︎</span>
-                                <span class="separating-line"></span>
+                                <span><?php echo substr($lastItinerary['departure_time'], 11, 5); ?></span>
                             </div>
-                            <span class="itiernaray-info-city"><?php echo $lastItinerary['city']; ?></span>
-                        </div>
-                    </td>
 
-                    <td><?php 
-                            if($flight['is_cancelled']==1){
-                              echo 'cancelled';  
-                            }
-                            elseif($flight['is_completed']==1){
-                                echo 'completed';
-                            }
-                            else{
-                                echo 'ongoing';
+                            <div class="itiernaray-info">
+                                <span class="itiernaray-info-city"><?php echo $firstItinerary['city']; ?></span>
+                                <div class="separating-line-div">
+                                    <span>✈︎</span>
+                                    <span class="separating-line"></span>
+                                </div>
+                                <span class="itiernaray-info-city"><?php echo $lastItinerary['city']; ?></span>
+                            </div>
+                        </td>
+
+                        <td><?php 
+                            if ($flight['is_cancelled'] == 1) {
+                                echo 'Cancelled';  
+                            } elseif ($flight['is_completed'] == 1) {
+                                echo 'Completed';
+                            } else {
+                                echo 'Ongoing';
                             }
                         ?></td>
-                    <td>
-                        <?php
-                            if($flight['is_cancelled']==1){
-                                echo "<button class='cancel-btn' onclick='cancelFlight(". $flight['id'].")' disabled>Cancel Flight</button>";
+                        <td>
+                            <?php
+                                if ($flight['is_cancelled'] == 1) {
+                                    echo "<button class='cancel-btn' onclick='cancelFlight(". $flight['id'] .")' disabled>Cancel Flight</button>";
+                                }
+                                else {
+                                    echo "<button class='cancel-btn' style='cursor: pointer;' onclick='cancelFlight(". $flight['id'] .")'>Cancel Flight</button>";
+                                }
+                                echo "<a href='index.php?action=flight_details&id=" . $flight['id'] . "'>
+                                        <button class='details-btn' style='cursor: pointer;'>View details</button>
+                                      </a>";
 
-                            }
-                            else{
-                                echo "<button class='cancel-btn' style='cursor: pointer;' onclick='cancelFlight(". $flight['id'].")'>Cancel Flight</button>";
-
-                            }
-                        ?>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-        
+                            ?>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+        <h2>Messages</h2>
+        <div class="tablesdiv">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sender</th>
+                        <th>Message</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (isset($messages) && is_array($messages)): ?> 
+                        <?php foreach ($messages as $message): ?> 
+                            <tr> 
+                                <td><?php echo $message['sender']; ?></td> 
+                                <td><?php echo $message['message']; ?></td> 
+                                <td><?php echo $message['date']; ?></td> 
+                            </tr> <?php endforeach; ?> <?php else: ?> 
+                                <tr> 
+                                    <td colspan="3">No messages yet</td> 
+                                </tr> 
+                        <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
     </div>
 
-
-    <div id="itineraryModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5);">
-        <div style="background: white; margin: 10% auto; padding: 20px; width: 50%; position: relative; border-radius: 8px;">
-            <h2>Itinerary timeline</h2>
+    <div id="itineraryModal">
+        <div>
+            <h2>Itinerary Timeline</h2>
             <div id="itineraryDetails" class="timeline-container"></div>
             <button onclick="closeModal()">Close</button>
         </div>

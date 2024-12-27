@@ -28,5 +28,24 @@ class CompanyController {
         $flights = Flight::getByCompanyId($companyId);
         include __DIR__ . '/../views/company/home.php';
     }
+
+    public function profile() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        $companyId = $_SESSION['company_id'];
+        $userId = $_SESSION['user_id'];
+        $company = Company::getByUserId($userId);
+        $user = User::getByID($userId);
+
+        if (!$company) {
+            echo "Company data not found!";
+            return;
+        }
+
+        $flights = Flight::getByCompanyId($companyId);
+        include __DIR__ . '/../views/company/profile.php';
+    }
+
 }
 ?>

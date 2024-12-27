@@ -83,4 +83,15 @@ END $$
 
 DELIMITER ;
 
-select * from users
+
+CREATE TABLE itineraries (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    flight_id INT NOT NULL,
+    city VARCHAR(255) NOT NULL,
+    arrival_time DATETIME NOT NULL,
+    departure_time DATETIME NOT NULL,
+    FOREIGN KEY (flight_id) REFERENCES flights(id) ON DELETE CASCADE
+);
+
+
+select * from users;

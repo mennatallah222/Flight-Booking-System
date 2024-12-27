@@ -41,7 +41,7 @@
             text-decoration: underline;
         }
         .container {
-            margin: 40px auto;
+            margin: 50px 10px;
             padding: 20px;
             background-color: white;
             border-radius: 8px;
@@ -103,7 +103,7 @@
 
         button[type="button"] {
             margin-top: 10px;
-            background-color: #2980b9;
+            background-color: #3498db;
             color: white;
             border: none;
             padding: 8px 15px;
@@ -151,16 +151,15 @@
             padding: 10px;
         }
         .sidebar a.active, .sidebar a:hover{
-            background-color: #007bff;
+            background-color: #3498db;
             color: #fff;
         }
     </style>
     <div class="sidebar">
-        <a href="index.php?action=companyHome">Overview</a>
-        <a href="profile.php">Profile</a>
-        <a href="messages.php">Messages</a>
-        <a href="index.php?action=add_flight" class="active">Add Flight</a>
-
+        <img src="<?php echo $company['logo']; ?>" alt="Company Logo" style="height: 150px;display: grid;justify-self: center; margin-bottom:70px">
+        <a href="index.php?action=companyHome">Home</a>
+        <a href="index.php?action=profile">Profile</a>
+        <a href="index.php?action=add_flight" class="active">Add flight</a>
     </div>
 
     <div class="content">

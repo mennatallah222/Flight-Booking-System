@@ -11,13 +11,10 @@ class FlightController {
 
     public function addFlight(){
         $company_id = $_SESSION['company_id'];
-        
         $userId = $_SESSION['user_id'];
         $user=User::getByID($userId);
-
-        $company = Company::getByUserId($this->pdo, $company_id);
-
-        if (!$company_id) {
+        $company = Company::getByUserId($company_id);
+        if (!$company_id||!$company) {
             echo "Please log in again";
             return;
         }
@@ -102,6 +99,18 @@ class FlightController {
     exit;
 }
 
-
+public function viewFlightDetails($flight_id) {
+        global $pdo;        
+        $stmt = $pdo->prepare("SELECT * FROM flights WHERE id = :id");
+        $stmt->execute(['id' => $flight_id]);
+        $flight = $stmt->fetch(PDO::FETCH_ASSOC);
+        $userId = $_SESSION['user_id'];
+        $company = Company::getByUserId($userId);
+        if ($flight) {
+            include './views/company/flight_details.php';
+        } else {
+            echo "Flight not found.";
+        }
+    }
 
 }

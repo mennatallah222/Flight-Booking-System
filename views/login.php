@@ -6,52 +6,45 @@
     <title>Login</title>
 </head>
 <style>
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100vh;
-}
+ body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        background-color: #f4f4f4;
+    }
+.header {
+            background-color: #007bff;
+            padding: 20px;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-.app-header {
-    flex-shrink: 0;
-    width: 100%;
-    height: 50px;
-    background-color: lightblue;
-    color: white;
-    padding: 10px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
 
-  .logo-container {
-    display: flex;
-    align-items: center;
-}
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
 
-.logo {
-    width: 50px;
-    height: 50px;
-    margin-right: 15px;
-}
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
 
-.app-name {
-    font-size: 24px;
-    font-weight: bold;
-    margin: 0;
-}
-
+        .nav-links a:hover {
+            color: #f4f4f4;
+        }
 .form-container {
    margin-top: 50px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    
+    display: flex;
+    justify-content: center;
 }
 
 form {
@@ -121,12 +114,15 @@ button:hover {
 }
 </style>
 <body>
-    <header class="app-header">
-        <div class="logo-container">
-            <img src="../assets/logo.png" alt="Website Logo" class="logo" />
-            <h1 class="app-name">FlyMates</h1>
-        </div>
+    <header class="header">
+        <div class="logo">FlyMates</div>
+        <nav class="nav-links">
+            <a href="#">Help</a>
+            <a href="index.php?action=home">Home</a>
+            
+        </nav>
     </header>
+   
 
     <div class="form-container">
         <form action="index.php?action=login" method="POST">
