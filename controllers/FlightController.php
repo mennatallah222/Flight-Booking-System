@@ -14,7 +14,7 @@ class FlightController {
         $userId = $_SESSION['user_id'];
         $user=User::getByID($userId);
         $company = Company::getByUserId($company_id);
-        if (!$company_id||!$company) {
+        if (!$company_id) {
             echo "Please log in again";
             return;
         }

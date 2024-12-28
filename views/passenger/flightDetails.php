@@ -39,6 +39,7 @@
                     </form>
                 </div>
 
+                <!-- placeholders-->
                 <div class="flights-container">
                     <div class="FlightDetails">
                         <h5 style="color: blue;margin: 2px">ID:</h5><br>

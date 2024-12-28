@@ -19,6 +19,12 @@ $flightController = new FlightController($pdo);
 
 switch ($action) {
     case 'register':
+        $authController->registerInitial();
+        break;
+    case 'registerCompany':
+        $authController->register();
+        break;
+    case 'registerPassenger':
         $authController->register();
         break;
     case 'login':

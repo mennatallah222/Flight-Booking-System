@@ -261,65 +261,68 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($flights as $flight): ?>
-                    <tr>
-                        <td><?php echo $flight['id']; ?></td>
-                        <td><?php echo $flight['name']; ?></td>
-                        <td>$<?php echo $flight['fees']; ?></td>
-                        <td class="itineraries-td" onclick='showItineraryDetails(<?php echo json_encode(Flight::getItinerariesByFlightID($flight['id'])); ?>)'>
-                            <?php
-                                $itineraries = Flight::getItinerariesByFlightID($flight['id']);
-                                $firstItinerary = reset($itineraries);
-                                $lastItinerary = end($itineraries);
-                            ?>
-
-                            <div class="itiernaray-info">
-                                <span><?php echo substr($firstItinerary['departure_time'], 11, 5); ?></span>
-                                <?php
-                                    $departureTime = new DateTime($firstItinerary['departure_time']);
-                                    $arrivalTime = new DateTime($lastItinerary['departure_time']);
-                                    $interval = $departureTime->diff($arrivalTime);
-                                    $totalFlightTime = $interval->format('%a days %h hours %i minutes');
-                                ?>
-                                <span><?php echo $totalFlightTime; ?></span>
-                                <span><?php echo substr($lastItinerary['departure_time'], 11, 5); ?></span>
-                            </div>
-
-                            <div class="itiernaray-info">
-                                <span class="itiernaray-info-city"><?php echo $firstItinerary['city']; ?></span>
-                                <div class="separating-line-div">
-                                    <span>✈︎</span>
-                                    <span class="separating-line"></span>
-                                </div>
-                                <span class="itiernaray-info-city"><?php echo $lastItinerary['city']; ?></span>
-                            </div>
-                        </td>
-
-                        <td><?php 
-                            if ($flight['is_cancelled'] == 1) {
-                                echo 'Cancelled';  
-                            } elseif ($flight['is_completed'] == 1) {
-                                echo 'Completed';
-                            } else {
-                                echo 'Ongoing';
-                            }
-                        ?></td>
-                        <td>
-                            <?php
-                                if ($flight['is_cancelled'] == 1) {
-                                    echo "<button class='cancel-btn' onclick='cancelFlight(". $flight['id'] .")' disabled>Cancel Flight</button>";
-                                }
-                                else {
-                                    echo "<button class='cancel-btn' style='cursor: pointer;' onclick='cancelFlight(". $flight['id'] .")'>Cancel Flight</button>";
-                                }
-                                echo "<a href='index.php?action=flight_details&id=" . $flight['id'] . "'>
-                                        <button class='details-btn' style='cursor: pointer;'>View details</button>
-                                      </a>";
-
-                            ?>
-                        </td>
-                    </tr>
-                    <?php endforeach; ?>
+                    <?php if (isset($messages) && is_array($messages)): ?> 
+                        <?php foreach ($flights as $flight): ?>
+                            <tr>
+                                <td><?php echo $flight['id']; ?></td>
+                                <td><?php echo $flight['name']; ?></td>
+                                <td>$<?php echo $flight['fees']; ?></td>
+                                <td class="itineraries-td" onclick='showItineraryDetails(<?php echo json_encode(Flight::getItinerariesByFlightID($flight['id'])); ?>)'>
+                                    <?php
+                                        $itineraries = Flight::getItinerariesByFlightID($flight['id']);
+                                        $firstItinerary = reset($itineraries);
+                                        $lastItinerary = end($itineraries);
+                                    ?>
+                                    <div class="itiernaray-info">
+                                        <span><?php echo substr($firstItinerary['departure_time'], 11, 5); ?></span>
+                                        <?php
+                                            $departureTime = new DateTime($firstItinerary['departure_time']);
+                                            $arrivalTime = new DateTime($lastItinerary['departure_time']);
+                                            $interval = $departureTime->diff($arrivalTime);
+                                            $totalFlightTime = $interval->format('%a days %h hours %i minutes');
+                                        ?>
+                                        <span><?php echo $totalFlightTime; ?></span>
+                                        <span><?php echo substr($lastItinerary['departure_time'], 11, 5); ?></span>
+                                    </div>
+                                    <div class="itiernaray-info">
+                                        <span class="itiernaray-info-city"><?php echo $firstItinerary['city']; ?></span>
+                                        <div class="separating-line-div">
+                                            <span>✈︎</span>
+                                            <span class="separating-line"></span>
+                                        </div>
+                                        <span class="itiernaray-info-city"><?php echo $lastItinerary['city']; ?></span>
+                                    </div>
+                                </td>
+                                <td><?php 
+                                    if ($flight['is_cancelled'] == 1) {
+                                        echo 'Cancelled';  
+                                    }
+                                    elseif ($flight['is_completed'] == 1) {
+                                        echo 'Completed';
+                                    }
+                                    else {
+                                        echo 'Ongoing';
+                                    }
+                                ?></td>
+                                <td>
+                                    <?php
+                                        if ($flight['is_cancelled'] == 1) {
+                                            echo "<button class='cancel-btn' onclick='cancelFlight(". $flight['id'] .")' disabled>Cancel Flight</button>";
+                                        }
+                                        else {
+                                            echo "<button class='cancel-btn' style='cursor: pointer;' onclick='cancelFlight(". $flight['id'] .")'>Cancel Flight</button>";
+                                        }
+                                        echo "<a href='index.php?action=flight_details&id=" . $flight['id'] . "'>
+                                                <button class='details-btn' style='cursor: pointer;'>View details</button>
+                                            </a>";?>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                    <?php else: ?> 
+                                <tr> 
+                                    <td colspan="6">You haven't added any flights</td> 
+                                </tr> 
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>
@@ -340,11 +343,12 @@
                                 <td><?php echo $message['sender']; ?></td> 
                                 <td><?php echo $message['message']; ?></td> 
                                 <td><?php echo $message['date']; ?></td> 
-                            </tr> <?php endforeach; ?> <?php else: ?> 
+                            </tr> <?php endforeach; ?>
+                            <?php else: ?> 
                                 <tr> 
                                     <td colspan="3">No messages yet</td> 
                                 </tr> 
-                        <?php endif; ?>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>

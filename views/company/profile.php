@@ -274,32 +274,27 @@
     <div class="content">
         <div class="profile-header">
             <img src="<?php echo $company['logo']; ?>" alt="Profile Picture">
-            
         </div>
         <h1><?php echo $user['name']; ?></h1>
-
         <div class="bio">
             <h2>Bio</h2>
             <p><?php echo $company['bio']; ?></p>
         </div>
-
         <div class="address">
             <h2>Address</h2>
             <p><?php echo $company['address']; ?></p>
         </div>
-
         <?php
-
-        if ($company) {
-            $companyName = isset($user['name']) ? $user['name'] : 'N/A';
-            $companyBio = isset($company['bio']) ? $company['bio'] : 'No bio provided';
-            $companyAddress = isset($company['address']) ? $company['address'] : 'No address provided';
-        }
-        else {
-            $companyName = "Company's data not found";
-            $companyBio = 'No bio available';
-            $companyAddress = 'No address available';
-        }
+            if ($company) {
+                $companyName = isset($user['name']) ? $user['name'] : 'N/A';
+                $companyBio = isset($company['bio']) ? $company['bio'] : 'No bio provided';
+                $companyAddress = isset($company['address']) ? $company['address'] : 'No address provided';
+            }
+            else {
+                $companyName = "Company's data not found";
+                $companyBio = 'No bio available';
+                $companyAddress = 'No address available';
+            }
         ?>
         <h2>Edit your profile</h2>
         <div class="edit-section">
@@ -332,72 +327,72 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($flights as $flight): ?>
-                    <tr>
-                        <td><?php echo $flight['id']; ?></td>
-                        <td><?php echo $flight['name']; ?></td>
-                        <td>$<?php echo $flight['fees']; ?></td>
-                        <td class="itineraries-td" onclick='showItineraryDetails(<?php echo json_encode(Flight::getItinerariesByFlightID($flight['id'])); ?>)'>
-                            <?php
-                                $itineraries = Flight::getItinerariesByFlightID($flight['id']);
-                                $firstItinerary = reset($itineraries);
-                                $lastItinerary = end($itineraries);
-                            ?>
-
-                            <div class="itiernaray-info">
-                                <span><?php echo substr($firstItinerary['departure_time'], 11, 5); ?></span>
-                                <?php
-                                    $departureTime = new DateTime($firstItinerary['departure_time']);
-                                    $arrivalTime = new DateTime($lastItinerary['departure_time']);
-                                    $interval = $departureTime->diff($arrivalTime);
-                                    $totalFlightTime = $interval->format('%a days %h hours %i minutes');
-                                ?>
-                                <span><?php echo $totalFlightTime; ?></span>
-                                <span><?php echo substr($lastItinerary['departure_time'], 11, 5); ?></span>
-                            </div>
-
-                            <div class="itiernaray-info">
-                                <span class="itiernaray-info-city"><?php echo $firstItinerary['city']; ?></span>
-                                <div class="separating-line-div">
-                                    <span>✈︎</span>
-                                    <span class="separating-line"></span>
-                                </div>
-                                <span class="itiernaray-info-city"><?php echo $lastItinerary['city']; ?></span>
-                            </div>
-                        </td>
-
-                        <td><?php 
-                            if ($flight['is_cancelled'] == 1) {
-                                echo 'Cancelled';  
-                            } elseif ($flight['is_completed'] == 1) {
-                                echo 'Completed';
-                            } else {
-                                echo 'Ongoing';
-                            }
-                        ?></td>
-                        <td>
-                            <?php
-                                if ($flight['is_cancelled'] == 1) {
-                                    echo "<button class='cancel-btn' onclick='cancelFlight(". $flight['id'] .")' disabled>Cancel Flight</button>";
-                                }
-                                else {
-                                    echo "<button class='cancel-btn' style='cursor: pointer;' onclick='cancelFlight(". $flight['id'] .")'>Cancel Flight</button>";
-                                }
-                                echo "<a href='index.php?action=flight_details&id=" . $flight['id'] . "'>
-                                        <button class='details-btn' style='cursor: pointer;'>View details</button>
-                                      </a>";
-
-                            ?>
-                        </td>
-                    </tr>
-                    <?php endforeach; ?>
+                    <?php if (isset($messages) && is_array($messages)): ?> 
+                        <?php foreach ($flights as $flight): ?>
+                            <tr>
+                                <td><?php echo $flight['id']; ?></td>
+                                <td><?php echo $flight['name']; ?></td>
+                                <td>$<?php echo $flight['fees']; ?></td>
+                                <td class="itineraries-td" onclick='showItineraryDetails(<?php echo json_encode(Flight::getItinerariesByFlightID($flight['id'])); ?>)'>
+                                    <?php
+                                        $itineraries = Flight::getItinerariesByFlightID($flight['id']);
+                                        $firstItinerary = reset($itineraries);
+                                        $lastItinerary = end($itineraries);
+                                    ?>
+                                    <div class="itiernaray-info">
+                                        <span><?php echo substr($firstItinerary['departure_time'], 11, 5); ?></span>
+                                        <?php
+                                            $departureTime = new DateTime($firstItinerary['departure_time']);
+                                            $arrivalTime = new DateTime($lastItinerary['departure_time']);
+                                            $interval = $departureTime->diff($arrivalTime);
+                                            $totalFlightTime = $interval->format('%a days %h hours %i minutes');
+                                        ?>
+                                        <span><?php echo $totalFlightTime; ?></span>
+                                        <span><?php echo substr($lastItinerary['departure_time'], 11, 5); ?></span>
+                                    </div>
+                                    <div class="itiernaray-info">
+                                        <span class="itiernaray-info-city"><?php echo $firstItinerary['city']; ?></span>
+                                        <div class="separating-line-div">
+                                            <span>✈︎</span>
+                                            <span class="separating-line"></span>
+                                        </div>
+                                        <span class="itiernaray-info-city"><?php echo $lastItinerary['city']; ?></span>
+                                    </div>
+                                </td>
+                                <td><?php 
+                                    if ($flight['is_cancelled'] == 1) {
+                                        echo 'Cancelled';  
+                                    }
+                                    elseif ($flight['is_completed'] == 1) {
+                                        echo 'Completed';
+                                    }
+                                    else {
+                                        echo 'Ongoing';
+                                    }
+                                ?></td>
+                                <td>
+                                    <?php
+                                        if ($flight['is_cancelled'] == 1) {
+                                            echo "<button class='cancel-btn' onclick='cancelFlight(". $flight['id'] .")' disabled>Cancel Flight</button>";
+                                        }
+                                        else {
+                                            echo "<button class='cancel-btn' style='cursor: pointer;' onclick='cancelFlight(". $flight['id'] .")'>Cancel Flight</button>";
+                                        }
+                                        echo "<a href='index.php?action=flight_details&id=" . $flight['id'] . "'>
+                                                <button class='details-btn' style='cursor: pointer;'>View details</button>
+                                            </a>";?>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                    <?php else: ?> 
+                                <tr> 
+                                    <td colspan="6">You haven't added any flights</td> 
+                                </tr> 
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>
-
-
     </div>
-
     <div id="itineraryModal">
         <div>
             <h2>Itinerary Timeline</h2>
@@ -405,7 +400,6 @@
             <button onclick="closeModal()">Close</button>
         </div>
     </div>
-
     <script>
         function showItineraryDetails(itineraries) {
             const modal = document.getElementById('itineraryModal');
@@ -422,16 +416,12 @@
                 `;
                 detailsContainer.appendChild(div);
             });
-
             modal.style.display = 'block';
         }
-
-
         function closeModal() {
             const modal = document.getElementById('itineraryModal');
             modal.style.display = 'none';
         }
-
         function cancelFlight(flightId) {
             if (confirm('Are you sure you want to cancel this flight?')){
                 fetch(`index.php?action=cancel_flight&id=${flightId}`)

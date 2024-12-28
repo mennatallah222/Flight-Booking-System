@@ -11,34 +11,45 @@
         margin: 0;
         background-color: #f4f4f4;
     }
-.header {
-            background-color: #007bff;
-            padding: 20px;
-            color: #fff;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
 
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-        }
+/* App Header */
+.app-header {
+  flex-shrink: 0;
+  width: 100%; /* Ensure the header spans the full width */
+  height: 50px;
+  background-color: lightblue; /* Header background color */
+  color: white; /* Text color */
+  padding: 10px 20px; /* Spacing around the content */
+  display: flex; /* Flexbox for alignment */
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Shadow for depth */
+}
 
-        .nav-links {
-            display: flex;
-            gap: 20px;
-        }
+.logo-container {
+  display: flex;
+  align-items: center;
+}
 
-        .nav-links a {
-            color: #fff;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
+.logo {
+  width: 50px; /* Adjust size of the logo */
+  height: 50px;
+  margin-right: 15px; /* Space between logo and name */
+}
 
-        .nav-links a:hover {
-            color: #f4f4f4;
-        }
+.app-name {
+  font-size: 24px; /* Adjust font size */
+  font-weight: bold;
+  margin: 0;
+}
+
+/* Form Container */
+.form-container {
+  margin-top: 50px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
 .form-container {
    margin-top: 50px;
     border-radius: 8px;
@@ -114,14 +125,12 @@ button:hover {
 }
 </style>
 <body>
-    <header class="header">
-        <div class="logo">FlyMates</div>
-        <nav class="nav-links">
-            <a href="#">Help</a>
-            <a href="index.php?action=home">Home</a>
-            
-        </nav>
-    </header>
+    <header class="app-header">
+        <div class="logo-container">
+          <img src="../assets/logo.png" alt="Website Logo" class="logo" />
+          <h1 class="app-name">FlyMates</h1>
+        </div>
+      </header>
    
 
     <div class="form-container">
@@ -138,8 +147,9 @@ button:hover {
             </div>
 
             <button type="submit">Login</button>
-            <p>Don't have an account? <a href="../Register/RegisterForm.html">Register</a></p>
+            <p>Don't have an account? <a href="index.php?action=register">Register</a></p>
         </form>
     </div>
 </body>
 </html>
+

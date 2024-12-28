@@ -1,5 +1,4 @@
 <?php
-
 class AuthController {
     private $pdo;
 
@@ -15,13 +14,18 @@ class AuthController {
                 session_start();
             }
             $_SESSION['register_data'] = $_POST;
-            $role = filter_input(INPUT_GET, 'role', FILTER_SANITIZE_STRING);
-
-            if ($role === 'company') {
-                header('Location: CompanyRegistration.html');
+            $type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_STRING);
+            if ($type === 'company') {
+            include __DIR__ . '/../views/registerCompany.php';
+                exit();
+            }
+            elseif ($type === 'passenger') {
+                include __DIR__ . '/../views/registerPassenger.php';
+                exit();
             }
             else {
-                $this->register();
+                header('Location: register.php');
+                exit();
             }
         }
         else {
@@ -41,33 +45,29 @@ class AuthController {
                 $name = filter_var($postData['name'], FILTER_SANITIZE_STRING);
                 $password = $postData['password'];
                 $tel = filter_var($postData['tel'], FILTER_SANITIZE_STRING);
-                $role = filter_var($postData['role'], FILTER_SANITIZE_STRING);
-
+                $role = filter_var($postData['type'], FILTER_SANITIZE_STRING);
+                $account = filter_input(INPUT_POST, 'Account', FILTER_SANITIZE_STRING) ?? '';
                 if (!$email || !$name || !$password || !$tel || !$role) {
                     throw new Exception("Please fill all the fields correctly");
                 }
-
                 $user = User::getByEmail($email);
                 if ($user) {
                     echo "This email already exists";
                     return;
                 }
-
                 $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-                $userId = User::create($email, $hashedPassword, $name, $tel, $role);
-
+                $userId = User::create($email, $hashedPassword, $name, $tel, $role, $account);
                 if ($role === 'company') {
                     $bio = filter_input(INPUT_POST, 'Bio', FILTER_SANITIZE_STRING) ?? '';
                     $address = filter_input(INPUT_POST, 'Address', FILTER_SANITIZE_STRING) ?? '';
                     $location = filter_input(INPUT_POST, 'Location', FILTER_SANITIZE_STRING) ?? '';
                     $logoUrl = $this->handleLogoUpload();
-
-                    Company::create($userId, $bio, $address, $location, $logoUrl, 0);
-                }
+                    Company::create($userId, $bio, $address, $location, $logoUrl, $account);
+                } 
                 elseif ($role === 'passenger') {
+                    //LOGIC TO BE ADDED
                     Passenger::create($email, $password, $name, $tel, $role, '', '', 0);
                 }
-
                 $this->pdo->commit();
                 echo "Registration succeeded!";
                 header('Refresh: 2; URL=index.php?action=login');
@@ -76,30 +76,32 @@ class AuthController {
                 $this->pdo->rollBack();
                 echo "Error: " . $e->getMessage();
             }
-        }
-        else {
+        } else {
             include __DIR__ . '/../views/register.php';
         }
     }
 
     private function handleLogoUpload() {
-        if (isset($_FILES['logo']) && $_FILES['logo']['error'] === UPLOAD_ERR_OK) {
-            $logoTmpPath = $_FILES['logo']['tmp_name'];
-            $logoName = basename($_FILES['logo']['name']);
-            $uploadDir = __DIR__ . '/../uploads/logos/';
-            if (!is_dir($uploadDir)) {
-                mkdir($uploadDir, 0777, true);
-            }
-            $logoPath = $uploadDir . uniqid() . "_" . $logoName;
-            if (move_uploaded_file($logoTmpPath, $logoPath)) {
-                return 'uploads/logos/' . basename($logoPath);
-            }
-            else {
-                throw new Exception("Error uploading the logo");
-            }
+    if (isset($_FILES['logo']) && $_FILES['logo']['error'] === UPLOAD_ERR_OK) {
+        $logoTmpPath = $_FILES['logo']['tmp_name'];
+        $logoName = basename($_FILES['logo']['name']);
+        $uploadDir = __DIR__ . '/../uploads/logos/';
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
         }
-        return '';
+        $logoPath = $uploadDir . uniqid() . "_" . $logoName;
+        if (move_uploaded_file($logoTmpPath, $logoPath)) {
+            return 'uploads/logos/' . basename($logoPath);
+        } else {
+            throw new Exception("Error uploading the logo");
+        }
     }
+    else{
+        echo "No file uploaded or error occurred: " . $_FILES['logo']['error'];
+    }
+    return '';
+}
+
 
     public function login() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -118,16 +120,20 @@ class AuthController {
                     if ($company) {
                         $_SESSION['company_id'] = $company['id'];
                         header('Location: index.php?action=companyHome');
-                    } else {
+                    }
+                    else {
                         echo "Company not found!";
                     }
-                } else {
+                }
+                else {
                     header('Location: index.php?action=passengerHome');
                 }
-            } else {
+            }
+            else {
                 echo "Invalid email or password.";
             }
-        } else {
+        }
+        else {
             include __DIR__ . '/../views/login.php';
         }
     }

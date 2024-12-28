@@ -7,7 +7,8 @@ CREATE TABLE users (
     password VARCHAR(255) NOT NULL,
     name VARCHAR(255) NOT NULL,
     tel VARCHAR(20) NOT NULL,
-    role VARCHAR(50) NOT NULL
+    role VARCHAR(50) NOT NULL,
+    account VARCHAR(225) NOT NULL,
 );
 
 CREATE TABLE companies (
