@@ -7,12 +7,13 @@ class Flight {
         self::$pdo = $pdo;
     }
     
-    public static function add($pdo, $name, $fees, $passengers_count, $start_time, $end_time, $company_id) {
-        $sql = "INSERT INTO flights (name, fees, passengers_count, start_time, end_time, company_id)
-                VALUES (?, ?, ?, ?, ?, ?)";
+    public static function add($pdo, $flight_uid, $name, $fees, $passengers_count, $start_time, $end_time, $company_id) {
+        $sql = "INSERT INTO flights (flight_uid, name, fees, passengers_count, start_time, end_time, company_id) 
+                VALUES (?, ?, ?, ?, ?, ?, ?)";
         $stmt = $pdo->prepare($sql);
-        return $stmt->execute([$name, $fees, $passengers_count, $start_time, $end_time, $company_id]);
+        return $stmt->execute([$flight_uid, $name, $fees, $passengers_count, $start_time, $end_time, $company_id]);
     }
+
 
 
     public static function getByCompanyId($companyId) {
