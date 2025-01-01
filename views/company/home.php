@@ -322,7 +322,8 @@
             <a href="index.php?action=profile">Profile</a>
             <a href="index.php?action=add_flight">Add Flight</a>
             <a href="index.php?action=login">Logout</a>
-        </div>
+
+      </div>
 
         <div class="content">
             <div class="dashboard-header">
@@ -377,6 +378,7 @@
                                             $itineraries = Flight::getItinerariesByFlightID($flight['id']);
                                             if (count($itineraries) > 0) {
                                                 $firstItinerary = reset(array: $itineraries);
+                                                $firstItinerary = reset($itineraries);
                                                 $lastItinerary = end($itineraries);
 
                                                 $departureTime = new DateTime($firstItinerary['departure_time']);

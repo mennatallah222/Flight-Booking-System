@@ -1,13 +1,12 @@
-/* Body: Center content both vertically and horizontally */
 body {
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
   margin: 0;
   padding: 0;
   display: flex;
-  flex-direction: column;  /* Stack header and form vertically */
- 
-  align-items: center;     /* Center horizontally */
+  flex-direction: column; /* Stack header and form vertically */
+
+  align-items: center; /* Center horizontally */
   height: 100vh;
 }
 
@@ -42,12 +41,14 @@ body {
   margin: 0;
 }
 
-/* Form Container */
 .form-container {
  margin-top: 50px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   
+  margin-top: 50px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Form Style */
@@ -97,10 +98,6 @@ input[type="file"] {
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for effects */
 }
 
-
-
-
-
 /* Optional: Add focus styles (when the input is selected) */
 input:focus,
 textarea:focus {
@@ -108,9 +105,6 @@ textarea:focus {
   border: 2px solid lightblue; /* Add a custom border color */
   box-shadow: 0 0 10px rgba(114, 194, 221, 0.657); /* Custom shadow for focus */
 }
-
-
-/* Button Style */
 button {
   width: 100%;
   padding: 12px;
@@ -126,8 +120,3 @@ button {
 button:hover {
   background-color: rgb(61, 178, 217);
 }
-
-
-
-
-

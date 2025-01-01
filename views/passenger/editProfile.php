@@ -35,6 +35,9 @@ button:hover {
     
 }
 </style>
+    <link rel="stylesheet" href="../assets/Forms.css">
+    <link rel="stylesheet" href="../assets/CompanyProfile.css">
+    <title>Edit Profile</title>
 </head>
 
 <body>
@@ -44,6 +47,9 @@ button:hover {
             <h1 class="app-name">FlyMates</h1>
         </div>
         
+            <img src="../assets/logo.png" alt="Website Logo" class="logo" />
+            <h1 class="app-name">FlyMates</h1>
+        </div>
     </header>
 
     <div class="main-content" style="flex-direction: unset;">
@@ -67,12 +73,23 @@ button:hover {
         <div class="right-container"  >
             <div class="bottom-right" >
                 <form name="reg3" method="post" action="index.php?action=updatePassengerDetails" style="border: 0px;"enctype="multipart/form-data">
+            <div class="logo-container"> <!-- Placeholder -->
+                <img src="../assets/DemoLogo.png" alt="Website Logo" class="Companylogo" />
+            </div>
+            <h3><!-- Placeholder -->
+                Saudi Arabian Airlines</h3>
+        </div>
+
+        <div class="right-container"  >
+            <div class="EditProfile" >
+                <form name="reg3" method="get" action="process.php" style="border: 0px;">
                     <h1>Edit Profile</h1>
 
                     <div style="display: flex; gap: 10px;">
                         <div>
                             <label>Name:</label>
                             <input type="text" name="name" value="<?php echo $user['name'];?>"/>
+                            <input type="text" name="name" />
                         </div>
                         <div>
                             <label>Password:</label>
@@ -88,6 +105,22 @@ button:hover {
                         <div>
                             <label>Email:</label>
                             <input type="email" name="email"value="<?php echo $user['email'];?>"  />
+                            <input type="tel" name="phone" />
+                        </div>
+                        <div>
+                            <label>Email:</label>
+                            <input type="email" name="email" />
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 10px;">
+                        <div>
+                            <label>Address:</label>
+                            <input type="text" name="Address" />
+                        </div>
+                        <div>
+                            <label>Location:</label>
+                            <input type="text" name="Location" />
                         </div>
                     </div>
 
@@ -98,6 +131,13 @@ button:hover {
                         <label>Passport:</label><br>
                         <input type="file" name="passportimg" accept="image/*" value="<?php echo $passenger['passport_img']; ?>"/>
                     
+                        <label>Bio:</label><br>
+                        <textarea name="Bio"></textarea>
+                    </div>
+
+                    <div>
+                        <label>Company Logo:</label><br>
+                        <input type="file" name="passportimg" accept="image/*" />
                     </div>
 
                     <input type="submit" name="SaveChanges" value="Save Changes"></input>
@@ -107,12 +147,6 @@ button:hover {
 
         </div>
     </div>
-
-
-
-
-
-
 
 
 </body>

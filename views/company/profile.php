@@ -392,7 +392,8 @@
             <a href="index.php?action=profile" class="active">Profile</a>
             <a href="index.php?action=add_flight">Add Flight</a>
             <a href="index.php?action=login">Logout</a>
-        </div>
+
+      </div>
 
         <div class="content">
             <div class="profile-header">
