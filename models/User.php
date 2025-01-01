@@ -25,11 +25,12 @@ class User {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public static function create($email, $password, $name, $tel, $role) {
-        $stmt = self::$pdo->prepare("INSERT INTO users (email, password, name, tel, role) VALUES (?, ?, ?, ?, ?)");
-        $stmt->execute([$email, $password, $name, $tel, $role]);
+    public static function create($email, $password, $name, $tel, $role, $account) {
+        $stmt = self::$pdo->prepare("INSERT INTO users (email, password, name, tel, role, account) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$email, $password, $name, $tel, $role, $account]);
         return self::$pdo->lastInsertId();
     }
+    
 }
 
 ?>

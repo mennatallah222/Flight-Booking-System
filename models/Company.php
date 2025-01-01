@@ -14,7 +14,7 @@ class Company extends User {
         self::$pdo = $pdo;
     }
 
-    public static function create($userId, $bio = '', $address = '', $location = '', $logo = '', $account = 0) {
+    public static function create($userId, $bio = '', $address = '', $location = '', $logo = '', $account=0) {
         if (!self::$pdo) {
             throw new Exception("PDO connection is not set");
         }

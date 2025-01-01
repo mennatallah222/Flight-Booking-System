@@ -12,40 +12,60 @@ class FlightController {
     public function addFlight(){
         $company_id = $_SESSION['company_id'];
         $userId = $_SESSION['user_id'];
-        $user=User::getByID($userId);
-        $company = Company::getByUserId($company_id);
-        if (!$company_id||!$company) {
-            echo "Please log in again";
+        $company = Company::getByUserId($userId);
+        $user = User::getByID($userId);
+
+        if (!$company) {
+            echo "Company data not found!";
             return;
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $flight_uid = $_POST['flight_uid'] ?? '';
             $name = $_POST['name'] ?? '';
             $fees = $_POST['fees'] ?? 0;
             $passengers_count = $_POST['passengers_count'] ?? 0;
             $startTime = $_POST['start_time'] ?? '';
-            $endTime = $_POST['end_time'] ?? '';
+            $endTime = $_POST['end_time'] ?? '';      
+            try{
+                $query = Flight::add($this->pdo, $flight_uid, $name, $fees, $passengers_count, $startTime, $endTime, $company_id);
+                if ($query) {
+                    $flight_id = $this->pdo->lastInsertId();
 
-            $result = Flight::add($this->pdo, $name, $fees, $passengers_count, $startTime, $endTime, $company_id);
-            if ($result) {
-                $flight_id = $this->pdo->lastInsertId('flights_id_seq');
-                $cities = $_POST['cities'];
-                $arrival_times = $_POST['arrival_times'];
-                $departure_times = $_POST['departure_times'];
-                for($i=0; $i<count($cities); $i++){
-                    $sql="INSERT INTO itineraries (flight_id, city, arrival_time, departure_time) VALUES (?, ?, ?, ?)";
-                    $stmt = $this->pdo->prepare($sql);
-                    $stmt->execute([$flight_id, $cities[$i], $arrival_times[$i], $departure_times[$i]]);
+                    $from_cities = $_POST['from_city'];
+                    $to_cities = $_POST['to_city'];
+                    $departure_times = $_POST['departure_time'];
+                    $arrival_times = $_POST['arrival_time'];
+                    for ($i = 0; $i < count($from_cities); $i++) {
+                        $sql = "INSERT INTO itineraries (flight_id, from_city, to_city, departure_time, arrival_time) 
+                                VALUES (?, ?, ?, ?, ?)";
+                        $stmt = $this->pdo->prepare($sql);
+                        $stmt->execute([
+                            $flight_id, 
+                            $from_cities[$i], 
+                            $to_cities[$i], 
+                            $departure_times[$i], 
+                            $arrival_times[$i]
+                        ]);
+
+                    }
+                    $first_from_city = $from_cities[0];
+                    $last_to_city = $to_cities[count($to_cities) - 1]; 
+                    $updateQuery = "UPDATE flights 
+                            SET from_city = ?, to_city = ? 
+                            WHERE id = ?";
+            $stmt = $this->pdo->prepare($updateQuery);
+            $stmt->execute([$first_from_city, $last_to_city, $flight_id]);
+
+                    header('Location: index.php?action=companyHome');
+                    exit;
                 }
-
-                header('Location: index.php?action=companyHome');
-                exit;
             }
-            else{
-                echo "failed to add the flight";
+            catch(Exception $e){
+                    echo "Error: " . $e->getMessage();
             }
         }
-        else{
+        else {
             include __DIR__ . '/../views/company/add_flight.php';
         }
     }

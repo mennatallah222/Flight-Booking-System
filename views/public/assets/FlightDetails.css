@@ -1,0 +1,47 @@
+.FlightDetails {
+  flex-direction: column;
+  display: flex;
+  flex-shrink: 1;
+  margin: 10px;
+  min-height: 50px;
+  min-width: fit-content;
+  display: flex;
+  background-color: white;
+  padding: 10px;
+  padding-top: 0px;
+  border-radius: 10px;
+  box-shadow: 4px 4px 8px rgba(176, 196, 222, 0.399),
+  -4px -4px 8px rgba(176, 196, 222, 0.399); /* Shadow on all sides */
+  flex: 1; /* Equal height for both divs */
+  align-items: flex-start; /* Aligns items horizontally in the center */
+  }
+
+
+  input[type="submit"].Cancel {
+  height: fit-content;
+  width: fit-content;
+  padding: 10px;
+  font-weight: bold;
+  background-color: rgb(227, 50, 50);
+  border: 2px solid rgb(227, 50, 50);
+  border-radius: 5px;
+  color: white;
+}
+
+
+input[type="submit"].Cancel:focus {
+  outline: none; /* Remove default outline */
+  border: 2px solid rgb(236, 94, 94); /* Add a custom border color */
+  box-shadow: 0 0 10px rgb(236, 94, 94); /* Custom shadow for focus */
+}
+
+
+input[type="submit"].Cancel:hover {
+  cursor: pointer;
+}
+
+
+
+
+
+  
