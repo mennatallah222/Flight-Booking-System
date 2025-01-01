@@ -125,12 +125,13 @@ button:hover {
 <body>
     <header class="app-header">
         <div class="logo-container">
+            <img src="views/public/assets/logo.png" alt="Website Logo" class="logo" />
             <img src="../assets/logo.png" alt="Website Logo" class="logo" />
             <h1 class="app-name">FlyMates</h1>
         </div>
     </header>
     <div class="form-container">
-        <form name="reg2" method="get" action="index.php?action=registerPassenger">
+        <form name="reg2" method="post" action="index.php?action=registerPassenger" enctype="multipart/form-data">
             <h1>Passenger Registration</h1>
             <div>
                 <label>Bank Account Number:</label>

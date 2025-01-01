@@ -46,14 +46,7 @@ CREATE TABLE flights (
     FOREIGN KEY (company_id) REFERENCES companies(id) ON DELETE SET NULL
 );
 
-CREATE TABLE itineraries (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    flight_id INT,
-    city VARCHAR(255) NOT NULL,
-    arrival_time TIMESTAMP,
-    departure_time TIMESTAMP,
-    FOREIGN KEY (flight_id) REFERENCES flights(id) ON DELETE CASCADE
-);
+
 
 CREATE TABLE flight_passengers (
     flight_id INT NOT NULL,
@@ -64,25 +57,8 @@ CREATE TABLE flight_passengers (
     FOREIGN KEY (passenger_id) REFERENCES passengers(id) ON DELETE CASCADE
 );
 
-CREATE INDEX idx_users_email ON users(email);
-CREATE INDEX idx_flights_company_id ON flights(company_id);
-CREATE INDEX idx_flight_passengers_flight_id ON flight_passengers(flight_id);
-CREATE INDEX idx_flight_passengers_passenger_id ON flight_passengers(passenger_id);
 
-DELIMITER $$
 
-CREATE TRIGGER flight_completion_check_before_insert
-BEFORE INSERT ON flights
-FOR EACH ROW
-BEGIN
-    IF NEW.registered_passengers >= NEW.passengers_count THEN
-        SET NEW.is_completed = TRUE;
-    ELSE
-        SET NEW.is_completed = FALSE;
-    END IF;
-END $$
-
-DELIMITER ;
 
 
 CREATE TABLE itineraries (
@@ -95,4 +71,3 @@ CREATE TABLE itineraries (
 );
 
 
-select * from users;

@@ -30,6 +30,7 @@ class User {
         $stmt->execute([$email, $password, $name, $tel, $role, $account]);
         return self::$pdo->lastInsertId();
     }
+    
 }
 
 ?>

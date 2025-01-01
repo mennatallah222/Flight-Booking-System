@@ -205,6 +205,8 @@
             <a href="index.php?action=companyHome">Home</a>
             <a href="index.php?action=profile">Profile</a>
             <a href="index.php?action=add_flight" class="active">Add Flight</a>
+            <a href="index.php?action=login">Logout</a>
+
         </div>
 
         <div class="content">

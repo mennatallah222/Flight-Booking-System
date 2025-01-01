@@ -209,6 +209,22 @@
 </head>
 
 <body>
+    
+</body><!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="views/public/assets/Passenger.css">
+    <title>Company Home</title>
+</head>
+
+<body>
+    <header class="app-header">
+        <div class="logo-container">
+        <img src="views/public/assets/logo.png" alt="Website Logo" class="logo" />
+            <h1 class="app-name">FlyMates</h1>
     <header class="app-header">
         <div class="logo-container">
             <img src="../assets/logo.png" alt="Website Logo" class="logo" />
@@ -222,6 +238,21 @@
     <div class="main-content">
         <div class="ProfileDiv">
             <div class="logo-container"> <!-- Placeholder -->
+            <img src="<?php echo $passenger['photo']; ?>"alt="User Photo" style="width: 170px; height: 170px; border-radius: 50%; object-fit: cover; border: 2px solid #ddd;" />
+
+            </div>
+            <!-- Placeholder -->
+            <h3><?php echo $user['name'];?></h3>
+
+            <h5 style="margin: 0px;"><?php echo $user['email']; ?></h5>
+
+            <h5 style="margin: 3px;"><?php echo $user['tel'];?></h5>
+            <button onclick="window.location.href='index.php?action=passengerHome';">Home</button>
+            <button onclick="window.location.href='index.php?action=passengerProfile';">Profile</button>
+            <button onclick="window.location.href='index.php?action=login';">Logout</button>
+         
+        </div>
+
                 <img src="../assets/Passenger.png" alt="Website Logo" class="Companylogo" />
             </div>
             <!-- Placeholder -->
@@ -239,6 +270,40 @@
                 
                 <div class="top-right-header">
                     <h2>Current Flights</h2>
+                    <form action="index.php?action=Addflight" method="POST">
+                        <input type="submit" name="AddFlight" value="&#x1F50E;&#xFE0E; Search Flight" ></input>
+                    </form>
+                </div>
+
+                <?php
+                $userId = $_SESSION['user_id'];
+                $passenger=Passenger::getByUserId($userId);
+                global $pdo;
+                $stmt=$pdo->prepare("SELECT *FROM flight_passengers WHERE passenger_id=? ");
+                $stmt->execute([$passenger['id']]);
+                $results=$stmt->fetchAll(PDO::FETCH_ASSOC);
+                foreach($results as $row)
+                { $stmt=$pdo->prepare("SELECT *FROM flights WHERE id=? AND is_completed=0");
+                  $stmt->execute([$row['flight_id']]);
+                  $flights=$stmt->fetchAll(PDO::FETCH_ASSOC);
+                  foreach($flights as $flight)
+                  {
+                    echo'
+                    <div class="content-container">
+                    <div class="content">
+                        <h5 style="color: blue;">'.$flight['start_time'].'-'.$flight['end_time'].'</h5>
+                        <h3 style="margin: 1px;">'.$flight['from_city'].'. . . . . '.$flight['to_city'].'</h3>
+                        <h3 style="margin: 1px;">$'.$flight['fees'].'</h3>
+                    </div>
+
+                </div>
+                    ';
+                  }
+                  
+                }
+                
+                ?>
+
                     <form action="process.php" method="POST">
                         <input type="submit" name="AddFlight" value="&#x1F50E;&#xFE0E; Add Flight" ></input>
                     </form>
@@ -270,6 +335,36 @@
                 <div class="bottom-right-header">
                     <h2>Completed Flights</h2>
                 </div>
+
+                <?php
+                $userId = $_SESSION['user_id'];
+                $passenger=Passenger::getByUserId($userId);
+                global $pdo;
+                $stmt=$pdo->prepare("SELECT *FROM flight_passengers WHERE passenger_id=? ");
+                $stmt->execute([$passenger['id']]);
+                $results=$stmt->fetchAll(PDO::FETCH_ASSOC);
+                foreach($results as $row)
+                { $stmt=$pdo->prepare("SELECT *FROM flights WHERE id=? AND is_completed=1");
+                  $stmt->execute([$row['flight_id']]);
+                  $flights=$stmt->fetchAll(PDO::FETCH_ASSOC);
+                  foreach($flights as $flight)
+                  {
+                    echo'
+                    <div class="content-container">
+                    <div class="content">
+                        <h5 style="color: blue;">'.$flight['start_time'].'-'.$flight['end_time'].'</h5>
+                        <h3 style="margin: 1px;">'.$flight['from_city'].'. . . . . '.$flight['to_city'].'</h3>
+                        <h3 style="margin: 1px;">$'.$flight['fees'].'</h3>
+                    </div>
+
+                </div>
+                    ';
+                  }
+                  
+                }
+                
+                ?>
+                
 
                 <!-- placeholders-->
                 <div class="bottom-right-container">

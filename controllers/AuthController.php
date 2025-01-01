@@ -1,4 +1,7 @@
 <?php
+
+require_once __DIR__ . '/../models/Passenger.php';
+
 class AuthController {
     private $pdo;
 
@@ -6,6 +9,7 @@ class AuthController {
         $this->pdo = $pdo;
         User::setPDO($this->pdo);
         Company::setPDO($this->pdo);
+        Passenger::setPDO($this->pdo);
     }
 
     public function registerInitial() {
@@ -65,6 +69,11 @@ class AuthController {
                     Company::create($userId, $bio, $address, $location, $logoUrl, $account);
                 } 
                 elseif ($role === 'passenger') {
+                    $account=10000;
+                    $personalPhoto=$this->handlePfpUploads();
+                    $passportPhoto=$this->handlePassportUploads();
+                    Passenger::createp($userId, $personalPhoto, $passportPhoto, $account);
+                   
                     //LOGIC TO BE ADDED
                     Passenger::create($email, $password, $name, $tel, $role, '', '', 0);
                 }
@@ -78,6 +87,76 @@ class AuthController {
             }
         } else {
             include __DIR__ . '/../views/register.php';
+        }
+    }
+    private function handlePfpUploads()
+    {
+        if(isset($_FILES['personalimg']) && $_FILES['personalimg']['error'] === UPLOAD_ERR_OK)
+        {
+            $personalTmpPath = $_FILES['personalimg']['tmp_name'];
+            $personalName = basename($_FILES['personalimg']['name']);
+            $uploadDir = __DIR__ . '/../PassengerUploads/info/';
+            if(!is_dir($uploadDir))
+            {
+                mkdir($uploadDir, 0777, true);
+            }
+            $personalPath = $uploadDir . uniqid() . "_" . $personalName;
+            if(move_uploaded_file($personalTmpPath, $personalPath))
+            {
+                return 'PassengerUploads/info/' . basename($personalPath);
+            }
+            
+            else
+            {
+                throw new Exception("Error uploading the personal image");
+            }
+        }
+        else
+        {
+            echo "No file uploaded or error occurred: " . $_FILES['personalimg']['error'];
+        }
+        
+    }
+    private function handlePassportUploads()
+    {
+        if(isset($_FILES['passportimg']) && $_FILES['passportimg']['error'] === UPLOAD_ERR_OK)
+        {
+            $personalTmpPath = $_FILES['passportimg']['tmp_name'];
+            $personalName = basename($_FILES['passportimg']['name']);
+            $uploadDir = __DIR__ . '/../PassengerUploads/info/';
+            if(!is_dir($uploadDir))
+            {
+                mkdir($uploadDir, 0777, true);
+            }
+            $personalPath = $uploadDir . uniqid() . "_" . $personalName;
+            if(move_uploaded_file($personalTmpPath, $personalPath))
+            {
+                return 'PassengerUploads/info/' . basename($personalPath);
+            }
+            else
+            {
+                throw new Exception("Error uploading the passport image");
+            }
+        }
+        else
+        {
+            echo "No file uploaded or error occurred: " . $_FILES['passportimg']['error'];
+        }
+        
+    }
+    private function handleLogoUpload() {
+    if (isset($_FILES['logo']) && $_FILES['logo']['error'] === UPLOAD_ERR_OK) {
+        $logoTmpPath = $_FILES['logo']['tmp_name'];
+        $logoName = basename($_FILES['logo']['name']);
+        $uploadDir = __DIR__ . '/../uploads/logos/';
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
+        $logoPath = $uploadDir . uniqid() . "_" . $logoName;
+        if (move_uploaded_file($logoTmpPath, $logoPath)) {
+            return 'uploads/logos/' . basename($logoPath);
+        } else {
+            throw new Exception("Error uploading the logo");
         }
     }
 
@@ -124,6 +203,18 @@ class AuthController {
                     else {
                         echo "Company not found!";
                     }
+                }
+                else if ($user['role'] == 'passenger') {
+                    $passenger=Passenger::getByUserId($user['id']);
+                    if($passenger){
+                        $_SESSION['passenger_id']=$passenger['id'];
+                        header('Location: index.php?action=passengerHome');
+                    }
+                    else{
+                        echo "Passenger not found!";
+                    }
+                    
+                }
                 }
                 else {
                     header('Location: index.php?action=passengerHome');
