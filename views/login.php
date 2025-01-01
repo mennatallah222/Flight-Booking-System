@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,43 +8,48 @@
 </head>
 <style>
  body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        background-color: #f4f4f4;
+    font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column; /* Stack header and form vertically */
+      align-items: center; /* Center horizontally */
+      height: 100vh;
+      background-image: url(../views/public/assets/imgs/66f64c79c822b34ebf52fc0b1d67d805\ \(1\).png);
+      background-repeat: no-repeat;
+      background-position:center;
     }
-
-/* App Header */
 .app-header {
-  flex-shrink: 0;
-  width: 100%; /* Ensure the header spans the full width */
-  height: 50px;
-  background-color: lightblue; /* Header background color */
-  color: white; /* Text color */
-  padding: 10px 20px; /* Spacing around the content */
-  display: flex; /* Flexbox for alignment */
-  align-items: center; /* Center vertically */
-  justify-content: center; /* Center horizontally */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Shadow for depth */
-}
-
-.logo-container {
-  display: flex;
-  align-items: center;
-}
-
-.logo {
-  width: 50px; /* Adjust size of the logo */
-  height: 50px;
-  margin-right: 15px; /* Space between logo and name */
-}
-
-.app-name {
-  font-size: 24px; /* Adjust font size */
-  font-weight: bold;
-  margin: 0;
-}
-
-/* Form Container */
+      flex-shrink: 0;
+      width: 97%;
+      height: 50px;
+      background-color: lightblue; /* Header background color */
+      color: white; /* Text color */
+      padding: 10px 20px; /* Spacing around the content */
+      display: flex; /* Flexbox for alignment */
+      align-items: center; /* Center vertically */
+      justify-content: center; /* Center horizontally */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Shadow for depth */
+    }
+    
+    .logo-container {
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo {
+      width: 50px; /* Adjust size of the logo */
+      height: 50px;
+      margin-right: 15px; /* Space between logo and name */
+    }
+    
+    .app-name {
+      font-size: 24px; /* Adjust font size */
+      font-weight: bold;
+      margin: 0;
+    }
+    
 .form-container {
   margin-top: 50px;
   border-radius: 8px;
@@ -67,6 +73,8 @@ form {
     background-color: #fff;
     display: flex;
     flex-direction: column;
+    position: absolute;
+    right: 100px;
 }
 
 form div {
@@ -111,7 +119,7 @@ textarea:focus {
 button {
     width: 100%;
     padding: 12px;
-    background-color: rgb(120, 199, 225);
+    background-color: #3498db;
     color: white;
     font-size: 16px;
     border: none;
@@ -127,8 +135,7 @@ button:hover {
 <body>
     <header class="app-header">
         <div class="logo-container">
-          <img src="views/public/assets/logo.png" alt="Website Logo" class="logo" />
-          <img src="../assets/logo.png" alt="Website Logo" class="logo" />
+        <img src="views/public/assets/logo.png" alt="Website Logo" class="logo" />
           <h1 class="app-name">FlyMates</h1>
         </div>
       </header>
@@ -153,4 +160,3 @@ button:hover {
     </div>
 </body>
 </html>
-

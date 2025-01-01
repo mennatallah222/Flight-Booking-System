@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-
 <style>
 button:hover {
     cursor: pointer;
@@ -21,7 +20,6 @@ button:hover {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="views/public/assets/Passenger.css">
-    <link rel="stylesheet" href="../assets/Passenger.css">
     <title>Company Home</title>
 </head>
 
@@ -29,8 +27,6 @@ button:hover {
     <header class="app-header">
         <div class="logo-container">
         <img src="views/public/assets/logo.png" alt="Website Logo" class="logo" />
-
-            <img src="../assets/logo.png" alt="Website Logo" class="logo" />
             <h1 class="app-name">FlyMates</h1>
         </div>
     </header>
@@ -44,17 +40,12 @@ button:hover {
             <h3><?php echo $user['name'];?></h3>
             <button onclick="window.location.href='index.php?action=passengerHome';">Home</button>
 
+<!-- Profile Button -->
 <button onclick="window.location.href='index.php?action=passengerProfile';">Profile</button>
 
+<!-- Logout Button -->
 <button onclick="window.location.href='index.php?action=login';">Logout</button>
         
-                <img src="../assets/Passenger.png" alt="Website Logo" class="Companylogo" />
-            </div>
-            <!-- Placeholder -->
-            <h3>Abdelrhman Gamal</h3>
-
-
-
         </div>
 
         <div class="right-container">
@@ -63,9 +54,6 @@ button:hover {
                 <div class="top-right-header">
                     <h2>Details</h2>
                     <a href="index.php?action=edit-profile"><button>Edit Profile</button></a>
-                    <form action="process.php" method="POST">
-                        <input type="submit" name="EditProfile" value="Edit Profile"></input>
-                    </form>
                 </div>
 
                 <!-- placeholders-->
@@ -80,20 +68,6 @@ button:hover {
                         <h3 style="margin: 1px;">passport</h3><br>
                         <img src="<?php echo $passenger['passport_img']; ?>"style="max-height: 300px;">
                     </div>
-                        <h3 style="margin: 1px;">Email: Agamal@email.com</h3>
-                    </div>
-                    <div class="content">
-                        <h3 style="margin: 1px;">Tel: +20123456789</h3>
-                    </div>
-                    <div class="content">
-                        <h3 style="margin: 1px;">Tel: +20123456789</h3>
-                    </div>
-                    <div class="content">
-                        <h3 style="margin: 1px;">passport</h3><br>
-                        <img src="../assets/passport.jpg" style="max-height: 300px;">
-                    </div>
-
-
                 </div>
             </div>
 
@@ -133,15 +107,6 @@ button:hover {
                 
                 ?>
                    
-                    <div class="content">
-                     
-                        <h3 style="margin: 1px;">CAI . . . . . NYC</h3>
-       
-                        <form action="process.php" method="POST">
-                            <button type="submit" name="FlightDetails" value="FlightDetails">Flight Details</button>
-                        </form>
-                   
-                </div>
             </div>
         </div>
     </div>

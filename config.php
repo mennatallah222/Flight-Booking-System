@@ -1,8 +1,8 @@
 <?php
-$dsn = 'mysql:host=localhost;port=3306;dbname=flight_booking';
+$dsn = 'mysql:host=localhost;port=3308;dbname=flight_booking';
 
 try {
-    $pdo = new PDO($dsn, 'root', '', [
+    $pdo = new PDO($dsn, 'root', 'new_password', [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
     ]);
     User::setPDO($pdo);

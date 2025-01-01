@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -7,7 +8,6 @@
     <title>Register</title>
   </head>
   <style>
-    /* Body: Center content both vertically and horizontally */
     body {
       font-family: Arial, sans-serif;
       background-color: #f4f4f4;
@@ -17,12 +17,14 @@
       flex-direction: column; /* Stack header and form vertically */
       align-items: center; /* Center horizontally */
       height: 100vh;
+      background-image: url(../views/public/assets/imgs/66f64c79c822b34ebf52fc0b1d67d805\ \(1\).png);
+      background-repeat: no-repeat;
+      background-position:center;
     }
     
-    /* App Header */
     .app-header {
       flex-shrink: 0;
-      width: 100%; /* Ensure the header spans the full width */
+      width: 97.5%; /* Ensure the header spans the full width */
       height: 50px;
       background-color: lightblue; /* Header background color */
       color: white; /* Text color */
@@ -50,7 +52,6 @@
       margin: 0;
     }
     
-    /* Form Container */
     .form-container {
       margin-top: 50px;
       border-radius: 8px;
@@ -67,6 +68,8 @@
       background-color: #fff;
       display: flex;
       flex-direction: column;
+      position: absolute;
+      right: 100px;
     }
     
     form div {
@@ -90,7 +93,6 @@
       box-sizing: border-box;
     }
     
-    /* Style the input[type="image"] */
     input[type="file"] {
       width: 500px;
       height: 50;
@@ -104,7 +106,6 @@
       transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for effects */
     }
     
-    /* Optional: Add focus styles (when the input is selected) */
     input:focus,
     textarea:focus {
       outline: none; /* Remove default outline */
@@ -116,7 +117,7 @@
     button {
       width: 100%;
       padding: 12px;
-      background-color: rgb(120, 199, 225);
+      background-color: #3498db;
       color: white;
       font-size: 16px;
       border: none;
@@ -130,46 +131,45 @@
     }
   </style>
   <body>
-    <!-- App Header -->
-    <header class="app-header">
+
+  <header class="app-header">
       <div class="logo-container">
         <img src="views/public/assets/logo.png" alt="Website Logo" class="logo" />
-        <img src="../views/public/assets/logo.png" alt="Website Logo" class="logo" />
-
         <h1 class="app-name">FlyMates</h1>
+
       </div>
     </header>
 
     <div class="form-container">
-      <form name="reg1" method="post" action="index.php?action=register">
-    <h1>Register a new user</h1>
-    <div>
-        <label>Name:</label>
-        <input type="text" name="name" required />
-    </div>
-    <div>
-        <label>Email:</label>
-        <input type="email" name="email" required />
-    </div>
-    <div>
-        <label>Password:</label>
-        <input type="password" name="password" required />
-    </div>
-    <div>
-        <label>Telephone Number:</label>
-        <input type="tel" name="tel" required />
-    </div>
-    <div>
-        <label>Type:</label>
-        <select name="type" required>
-            <option value="company">Company</option>
-            <option value="passenger">Passenger</option>
-        </select>
-    </div>
-    <button type="submit">Register</button>
-
-        <p>Already a user? <a href="index.php?action=login">Login</a></p>
+        <form name="reg1" method="post" action="index.php?action=register">
+            <h1>Register a new user</h1>
+            <div>
+                <label for="name">Name: <span style="color: red;">*</span></label>
+                <input type="text" name="name" id="name" required />
+            </div>
+            <div>
+                <label for="email">Email: <span style="color: red;">*</span></label>
+                <input type="email" name="email" id="email" required />
+            </div>
+            <div>
+                <label for="password">Password: <span style="color: red;">*</span></label>
+                <input type="password" name="password" id="password" required />
+            </div>
+            <div>
+                <label for="tel">Telephone Number: <span style="color: red;">*</span></label>
+                <input type="tel" name="tel" id="tel" required />
+            </div>
+            <div>
+                <label for="type">Type: <span style="color: red;">*</span></label>
+                <select name="type" id="type" required>
+                    <option value="company">Company</option>
+                    <option value="passenger">Passenger</option>
+                </select>
+            </div>
+            <button type="submit">Register</button>
+            <p>Already a user? <a href="index.php?action=login">Login</a></p>
       </form>
     </div>
   </body>
 </html>
+

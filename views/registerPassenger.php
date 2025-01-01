@@ -20,7 +20,7 @@ body {
 
 .app-header {
   flex-shrink: 0;
-  width: 100%;
+  width: 97%;
   height: 50px;
   background-color: lightblue;
   color: white;

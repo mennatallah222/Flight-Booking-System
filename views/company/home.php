@@ -448,31 +448,33 @@
 
 
             <h2>Messages</h2>
-            <div class="tablesdiv">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Sender</th>
-                            <th>Message</th>
-                            <th>Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if (isset($messages) && is_array($messages)): ?> 
-                            <?php foreach ($messages as $message): ?> 
-                                <tr> 
-                                    <td><?php echo $message['sender']; ?></td> 
-                                    <td><?php echo $message['message']; ?></td> 
-                                    <td><?php echo $message['date']; ?></td> 
-                                </tr> <?php endforeach; ?>
-                                <?php else: ?> 
-                                    <tr> 
-                                        <td colspan="3">No messages yet</td> 
-                                    </tr> 
-                        <?php endif; ?>
-                    </tbody>
-                </table>
-            </div>
+<div class="tablesdiv">
+    <table>
+        <thead>
+            <tr>
+                <th>Sender</th>
+                <th>Message</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (!empty($messages) && is_array($messages)): ?>
+                <?php foreach ($messages as $message): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($message['sender']); ?></td>
+                        <td><?php echo htmlspecialchars($message['message']); ?></td>
+                        <td><?php echo htmlspecialchars($message['date']); ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="3">No messages yet</td>
+                </tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
+</div>
+
         </div>
     </div>
     
