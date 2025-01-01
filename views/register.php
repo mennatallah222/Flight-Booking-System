@@ -133,7 +133,9 @@
     <!-- App Header -->
     <header class="app-header">
       <div class="logo-container">
+        <img src="views/public/assets/logo.png" alt="Website Logo" class="logo" />
         <img src="../views/public/assets/logo.png" alt="Website Logo" class="logo" />
+
         <h1 class="app-name">FlyMates</h1>
       </div>
     </header>

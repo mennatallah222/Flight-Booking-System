@@ -1,9 +1,15 @@
+<?php
+require_once __DIR__ . '/config.php';
+?>
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <title>Flight Search</title>
     <style>
-        html, body {
+            html, body {
     height: 100%; /* Ensure the root and body take up the full viewport height */
     margin: 0;
     padding: 0;
@@ -268,115 +274,79 @@ textarea:focus {
 }
   
     </style>
-
-    <title>Search</title>
 </head>
-
 <body>
-    <header class="app-header">
-        <div class="logo-container">
-            <img src="views/public/assets/logo.png" alt="Website Logo" class="logo" />
-            <h1 class="app-name">FlyMates</h1>
-        </div>
-    </header>
 
-    <div class="main-content">
-        <div class="ProfileDiv">
-            <div class="logo-container"> <!-- Placeholder -->
-            <img src="<?php echo $passenger['photo']; ?>"alt="User Photo" style="width: 170px; height: 170px; border-radius: 50%; object-fit: cover; border: 2px solid #ddd;" />
-            </div>
-            <!-- Placeholder -->
-            <h3><?php echo $user['name']; ?></h3>
-            <h5 style="margin: 0px;"><?php echo $user['email']; ?></h5>
-            <h5 style="margin: 3px;"><?php echo $user['tel']; ?></h5>
-            <!-- Home Button -->
-<button onclick="window.location.href='index.php?action=passengerHome';">Home</button>
-
-<!-- Profile Button -->
-<button onclick="window.location.href='index.php?action=passengerProfile';">Profile</button>
-
-<!-- Logout Button -->
-<button onclick="window.location.href='index.php?action=login';">Logout</button>
-        </div>
-
-        <div class="right-container">
-
-            <div class="bottom-right">
-                <div class="bottom-right-header">
-                    <h2>Search</h2>
-                </div>
-                <div style="display: flex; flex-direction: column;">
-
-                    <form name="search" method="get" action="process.php" class="search-form">
-                        
-                        <div>
-                            <div>
-                                <label>From:</label>
-                                <input type="text" name="from" class="form-control" id="live_search" autocomplete="off" />
-                            </div>
-                            <div>
-                                <label>To:</label>
-                                <input type="text" name="to" class="form-control" id="live_search2" autocomplete="off" />
-                            </div>
-                            <div>
-                                <br /><br />
-                                <input type="submit" name="Search" value="Search" />
-                            </div>
-                        </div> <!-- Added missing closing tag for this <div> -->
+        <?php
+        if (isset($_POST['input'])&& isset($_POST['input2'])) {
+            $input = $_POST['input'];
+            $input2 = $_POST['input2'];
+            $query = "SELECT * FROM itineraries WHERE LOWER(from_city) LIKE LOWER(:input) AND LOWER(to_city) LIKE LOWER(:input2)";
+            $stmt = $pdo->prepare($query); // Use prepared statements for security
+            $stmt->execute([':input' => $input . '%',':input2' => $input2 . '%']);  
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $stmt=$pdo->prepare("SELECT * FROM flights WHERE LOWER(from_city) LIKE LOWER(:input) AND LOWER(to_city) LIKE LOWER(:input2)");
+            $stmt->execute([':input' => $input . '%',':input2' => $input2 . '%']);
+            $flights=$stmt->fetchAll(PDO::FETCH_ASSOC);
+            if(count($flights)>0)
+            {
+                foreach($flights as $flight)
+                {
+                    $itineraries=Flight::getItinerariesByFlightID($flight['id']);
+                    if(count($itineraries)>1)
+                    {
+                        $from= reset(array: $itineraries);
+                        $to = end($itineraries);
+                        $departureTime = new DateTime($from['departure_time']);
+                        $arrivalTime = new DateTime($to['arrival_time']);
+                        if($flight['is_cancelled']===0&&$flight['is_completed']===0)
+                        {
                             
-                        </form> <!-- Properly closed this <form> tag -->
-                        <head>
+                            echo '<div class="search-content">
+                            <h5 style="color: blue;">' . $departureTime->format('Y-m-d H:i') . ' - ' . $arrivalTime->format('Y-m-d H:i') . '</h5>
+                            <h3 style="margin: 1px;">' . $from['from_city'] . ' . . . . .
+              <img src="https://images.emojiterra.com/google/noto-emoji/unicode-16.0/color/svg/2708.svg" style="width: 20px; height: 20px; vertical-align: middle; margin: 0 5px;">
+            . . . . . ' . $to['to_city'] . '</h3>
+                            <form action="index.php?action=details" method="POST">
+                                <button type="submit" name="FlightDetails" value="' . $flight['id']. '">Flight Details</button>
+                            </form>
+                          </div>';
+                        
+                    }
 
-</head>
-                </div>
-        
-                    
-                    <!-- placeholders-->
-                    <div class="bottom-right-container" id="searchresult"> 
-            </div>
-        </div>
-        
-    </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script type="text/javascript">
-    $(document).ready(function(){
-        $("#live_search, #live_search2").keyup(function(){
-            var input=$("#live_search").val();
-            var input2 = $("#live_search2").val();
-            //alert(input);
-            if(input != "" || input2 !== ""){
-               $.ajax({
-                url:"index.php?action=search",
-                method:"POST",
-                data:{input:input,input2: input2},
-                success:function(data){
-                    $("#searchresult").html(data);
-                    $("#searchresult").css("display","block");
+
+
+                    }
                 }
 
-               });
-            }else{
-                $("#searchresult").css("display","none");
             }
+            
+            if (count($result) > 0) {
+                foreach ($result as $row) {
+                    
+                    $from = $row['from_city'];
+                    $to = $row['to_city'];
+                    $departure_time = $row['departure_time'];
+                    $arrival_time = $row['arrival_time'];
+                    $flight_id=$row['flight_id'];
+                    $stmt = $pdo->prepare("SELECT * FROM flights WHERE id = :id");
+                              $stmt->execute(['id' => $flight_id]);
+                              $fligh = $stmt->fetch(PDO::FETCH_ASSOC);
+                    if($fligh['is_cancelled']===0&&$fligh['is_completed']===0){
+                    echo '<div class="search-content">
+                            <h5 style="color: blue;">' . $departure_time . ' - ' . $arrival_time . '</h5>
+                            <h3 style="margin: 1px;">' . $from . ' . . . . .
+            <img src="https://images.emojiterra.com/google/noto-emoji/unicode-16.0/color/svg/2708.svg" style="width: 20px; height: 20px; vertical-align: middle; margin: 0 5px;">
+            . . . . . ' . $to . '</h3>
+                            <form action="index.php?action=details" method="POST">
+                                <button type="submit" name="FlightDetails" value="' . $row['flight_id'] . '">Flight Details</button>
+                            </form>
+                          </div>'; } 
+            }
+            } 
+        }
 
-        });
-
-    });
-
-
-</script>
-</body>
-
-</html>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search</title>
-</head>
-<body>
-    
+        ?>
+    </div>
 </body>
 </html>

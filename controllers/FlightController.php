@@ -26,8 +26,36 @@ class FlightController {
             $fees = $_POST['fees'] ?? 0;
             $passengers_count = $_POST['passengers_count'] ?? 0;
             $startTime = $_POST['start_time'] ?? '';
-            $endTime = $_POST['end_time'] ?? '';
+            $endTime = $_POST['end_time'] ?? '';      
+            try{
+                $query = Flight::add($this->pdo, $flight_uid, $name, $fees, $passengers_count, $startTime, $endTime, $company_id);
+                if ($query) {
+                    $flight_id = $this->pdo->lastInsertId();
 
+                    $from_cities = $_POST['from_city'];
+                    $to_cities = $_POST['to_city'];
+                    $departure_times = $_POST['departure_time'];
+                    $arrival_times = $_POST['arrival_time'];
+                    for ($i = 0; $i < count($from_cities); $i++) {
+                        $sql = "INSERT INTO itineraries (flight_id, from_city, to_city, departure_time, arrival_time) 
+                                VALUES (?, ?, ?, ?, ?)";
+                        $stmt = $this->pdo->prepare($sql);
+                        $stmt->execute([
+                            $flight_id, 
+                            $from_cities[$i], 
+                            $to_cities[$i], 
+                            $departure_times[$i], 
+                            $arrival_times[$i]
+                        ]);
+
+                    }
+                    $first_from_city = $from_cities[0];
+                    $last_to_city = $to_cities[count($to_cities) - 1]; 
+                    $updateQuery = "UPDATE flights 
+                            SET from_city = ?, to_city = ? 
+                            WHERE id = ?";
+            $stmt = $this->pdo->prepare($updateQuery);
+            $stmt->execute([$first_from_city, $last_to_city, $flight_id]);
             
             try{
                 $query = Flight::add($this->pdo, $flight_uid, $name, $fees, $passengers_count, $startTime, $endTime, $company_id);

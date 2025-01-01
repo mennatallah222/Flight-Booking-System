@@ -3,7 +3,7 @@
 try {
     $pdo = new PDO(
         "mysql:host=localhost;dbname=flight_booking",
-        "root", "new_password"
+        "root", ""
     );
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }
