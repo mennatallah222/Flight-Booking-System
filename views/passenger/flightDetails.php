@@ -468,7 +468,6 @@ button, .dot {
             console.log(key, value);
             
         }
-    // Make AJAX request to submit the form
     fetch("index.php?action=payment", {
         method: "POST",
         body: formData

@@ -417,18 +417,26 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($pendingPassengers as $passenger): ?>
-                        <tr>
-                            <td><?php echo $passenger['name']; ?></td>
-                            <td><?php echo $passenger['email']; ?></td>
-                        </tr>
-                        <?php endforeach; ?>
+                        <?php if (!empty($pendingPassengers)): ?>
+                            <?php foreach ($pendingPassengers as $passenger): ?>
+                            <tr>
+                                
+                                <td><?php echo htmlspecialchars($passenger['name']); ?></td>
+                                <td><?php echo htmlspecialchars($passenger['email']); ?></td>
+                            </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="2">
+                                    <p>No passengers registered and still pending for this flight yet</p>
+                                </td>
+                            </tr>
+                        <?php endif; ?>
                     </tbody>
                 </table>
-            </div>
-
+            </div>            
+            <br>
             
-
             <div id="itineraryModal">
                 <div class="modal-content">
                     <h2>Itineraries schedule</h2>
@@ -447,21 +455,29 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($registeredPassengers as $passenger): ?>
-                        <tr>
-                            <td><?php echo $passenger['name']; ?></td>
-                            <td><?php echo $passenger['email']; ?></td>
-                        </tr>
-                        <?php endforeach; ?>
+                        <?php if (!empty($registeredPassengers)): ?>
+                            <?php foreach ($registeredPassengers as $passenger): ?>
+                            <tr>
+                                
+                                <td><?php echo htmlspecialchars($passenger['name']); ?></td>
+                                <td><?php echo htmlspecialchars($passenger['email']); ?></td>
+                            </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="2">
+                                    <p>No passengers registered for this flight yet</p>
+                                </td>
+                            </tr>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>
 
         </div>
     </div>
-    
 
-    <script>
+        <script>
         function showItineraryDetails(itineraries) {
             const itineraryContainer = document.getElementById('itineraryDetails');
             itineraryContainer.innerHTML = '';

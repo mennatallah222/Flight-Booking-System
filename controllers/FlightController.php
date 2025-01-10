@@ -126,9 +126,31 @@ public function viewFlightDetails($flight_id) {
         $flight = $stmt->fetch(PDO::FETCH_ASSOC);
         $userId = $_SESSION['user_id'];
         $company = Company::getByUserId($userId);
+
+        $registered_passengers_stmt = $pdo->prepare("
+            SELECT p.*, u.name, u.email, u.tel
+            FROM flight_passengers fp
+            JOIN passengers p ON fp.passenger_id = p.id
+            JOIN users u ON p.user_id = u.id
+            WHERE fp.flight_id = :flight_id AND fp.status = 'Registered'
+        ");
+        $registered_passengers_stmt->execute(['flight_id' => $flight_id]);
+        $registeredPassengers = $registered_passengers_stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $pending_passengers_stmt = $pdo->prepare("
+            SELECT p.*, u.name, u.email, u.tel
+            FROM flight_passengers fp
+            JOIN passengers p ON fp.passenger_id = p.id
+            JOIN users u ON p.user_id = u.id
+            WHERE fp.flight_id = :flight_id AND fp.status = 'Pending'
+        ");
+        $pending_passengers_stmt->execute(['flight_id' => $flight_id]);
+        $pendingPassengers = $pending_passengers_stmt->fetchAll(PDO::FETCH_ASSOC);
+
         if ($flight) {
             include './views/company/flight_details.php';
-        } else {
+        }
+        else {
             echo "Flight not found.";
         }
     }
