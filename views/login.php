@@ -13,8 +13,8 @@
       margin: 0;
       padding: 0;
       display: flex;
-      flex-direction: column; /* Stack header and form vertically */
-      align-items: center; /* Center horizontally */
+      flex-direction: column;
+      align-items: center;
       height: 100vh;
       background-image: url(../views/public/assets/imgs/66f64c79c822b34ebf52fc0b1d67d805\ \(1\).png);
       background-repeat: no-repeat;

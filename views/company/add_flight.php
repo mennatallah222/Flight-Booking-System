@@ -196,6 +196,13 @@
             padding: 20px;
             border-radius: 10px;
         }
+        .error-msg {
+            font-size: 12px;
+            color: red;
+            margin-top: 5px;
+            display: block;
+        }
+
     </style>
 </head>
 <body>
@@ -271,6 +278,31 @@
         </div>
     </div>
     <script>
+
+        function validateFlightTimes(event) {
+            const startTimeInput = document.getElementById("start_time");
+            const endTimeInput = document.getElementById("end_time");
+            const startTime = new Date(startTimeInput.value);
+            const endTime = new Date(endTimeInput.value);
+            document.querySelectorAll(".error-msg").forEach(msg => msg.remove());
+            if (startTime >= endTime) {
+                event.preventDefault();
+                const startError = document.createElement("span");
+                startError.className = "error-msg";
+                startError.style.color = "red";
+                startError.textContent = "Start time must be before end time";
+                startTimeInput.insertAdjacentElement("afterend", startError);
+
+                const endError = document.createElement("span");
+                endError.className = "error-msg";
+                endError.style.color = "red";
+                endError.textContent = "End time must be after start time";
+                endTimeInput.insertAdjacentElement("afterend", endError);
+            }
+        }
+
+        document.querySelector(".add-flight-form").addEventListener("submit", validateFlightTimes);
+
         function addItineraryField() {
             var container = document.getElementById('itinerary-container');
             var div = document.createElement('div');

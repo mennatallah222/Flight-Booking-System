@@ -71,53 +71,66 @@ class FlightController {
     }
 
    public function cancelFlight($flight_id) {
-    header('Content-Type: application/json');
+        header('Content-Type: application/json');
 
-    $query = $this->pdo->prepare('select * from flights where id = ?');
-    $query->execute([$flight_id]);
-    $flight = $query->fetch();
-    if ($flight) {
+        $query = $this->pdo->prepare('SELECT * FROM flights WHERE id = ?');
+        $query->execute([$flight_id]);
+        $flight = $query->fetch();
+        
+        if (!$flight) {
+            echo json_encode(['success' => false, 'message' => "Flight not found."]);
+            exit;
+        }
+        
         if ($flight['is_cancelled']) {
-            echo json_encode(['success' => false, 'message' => "flight is already canceled!"]);
+            echo json_encode(['success' => false, 'message' => "Flight is already canceled!"]);
             exit;
         }
 
-        $passengers = $this->pdo->prepare('select passengers.id, passengers.account from passengers 
-            join flight_passengers ON passengers.id=flight_passengers.passenger_id 
-            where flight_passengers.flight_id=? and flight_passengers.status=?
-        ');
-        $passengers->execute([$flight_id, 'confirmed']);
-        $passengers = $passengers->fetchAll();
-        if (!empty($passengers)){
-            $refundAmount = $flight['fees']/count($passengers);
+        $passengersStmt = $this->pdo->prepare(
+            'SELECT passengers.id 
+            FROM passengers 
+            JOIN flight_passengers ON passengers.id = flight_passengers.passenger_id 
+            WHERE flight_passengers.flight_id = ? AND flight_passengers.status = ?'
+        );
+        $passengersStmt->execute([$flight_id, 'Registered']);
+        $passengers = $passengersStmt->fetchAll();
+
+        if (!empty($passengers)) {
+            $refundAmount = $flight['fees'] / count($passengers);
+
             $this->pdo->beginTransaction();
-            try{
-                foreach ($passengers as $passenger){
-                    $updateAccountQuery = $this->pdo->prepare('update passengers set account=account + ? where id=?');
+            try {
+                foreach ($passengers as $passenger) {
+                    $updateAccountQuery = $this->pdo->prepare('UPDATE passengers SET account = account + ? WHERE id = ?');
                     $updateAccountQuery->execute([$refundAmount, $passenger['id']]);
                 }
-                $updateFlightQuery = $this->pdo->prepare('update flights set is_cancelled=true where id=?');
-                $updateFlightQuery->execute([$flight_id]);
+                
+                $updateFlight=$this->pdo->prepare('UPDATE flights SET is_cancelled = TRUE WHERE id = ?');
+                $updateFlight->execute([$flight_id]);
+
                 $this->pdo->commit();
-                echo json_encode(['success'=>true, 'message'=>"flight has been successfully canceled & refunds have been processed"]);
+                echo json_encode([
+                    'success' => true,
+                    'message' => "Flight has been successfully canceled and refunds processed.",
+                    'refund_amount_per_passenger' => $refundAmount,
+                ]);
             }
-            catch(Exception $e){
+            catch (Exception $e) {
                 $this->pdo->rollBack();
-                echo json_encode(['success'=>false, 'message'=>"error occurred while processing the refund: " . $e->getMessage()]);
+                echo json_encode(['success' => false, 'message' => "Error processing refunds: " . $e->getMessage()]);
             }
         }
-        else{
-            $updateFlightQuery=$this->pdo->prepare('update flights set is_cancelled=true where id=?');
-            $updateFlightQuery->execute([$flight_id]);
-            echo json_encode(['success' => true, 'message' => "flight has been successfully canceled & no passengers to refund for this flight"]);
+        else {
+            $updateFlight=$this->pdo->prepare('UPDATE flights SET is_cancelled = TRUE WHERE id = ?');
+            $updateFlight->execute([$flight_id]);
+            echo json_encode(['success' => true, 'message' => "Flight canceled. No registered passengers to refund."]);
         }
-    }
-    else{
-        echo json_encode(['success'=>false, 'message' => "flight is not found"]);
+
+        exit;
     }
 
-    exit;
-}
+
 
 public function viewFlightDetails($flight_id) {
         global $pdo;        
